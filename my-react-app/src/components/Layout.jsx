@@ -10,7 +10,7 @@ function Layout() {
     <>
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <Sidebar isOpen={sidebarOpen} />
-      <main className={`main-content ${!sidebarOpen ? "ml-0" : ""}`}>
+      <main className={`main-content ${!sidebarOpen ? "full" : ""}`}>
         <Outlet />
       </main>
     </>

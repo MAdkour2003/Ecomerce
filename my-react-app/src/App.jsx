@@ -14,7 +14,7 @@ function App() {
           <Route path="/Pro" element={<Pro />} />
         </Route>
       </Routes>
-      <div className="font-sans bg-gray-100 min-h-screen border-box"></div>
+      {/* <div className="font-sans bg-gray-100 min-h-screen border-box"></div> */}
     </>
   );
 }

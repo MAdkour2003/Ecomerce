@@ -5,12 +5,21 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.body {
+  font-family: ui-sans-serif;
+  background-color: white;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
 /* This class produces unexpected output during execution  */
 .main-content {
   margin-left: 200px;
   padding: 20px;
   margin-top: 55px;
+}
+
+.main-content.full {
+  margin-left: 20px;
 }
 
 /* body {
