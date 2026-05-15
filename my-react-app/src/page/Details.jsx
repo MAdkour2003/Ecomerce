@@ -19,15 +19,15 @@ function Details() {
     <div>
       <button
         onClick={() => navigate("/")}
-        className="text-4xl font-bold text-[#0a5bb7bb]"
+        className="text-4xl font-bold text-sidebar"
       >
         ~ Back to Home
       </button>
-      <div className="p-6 bg-white shadow ">
-        <h1 className="text-4xl font-bold text-blue-500 mb-2">#{item.id}</h1>
+      <div className="p-6 bg-text1 shadow ">
+        <h1 className="text-4xl font-bold text-textid mb-2">#{item.id}</h1>
         <h2 className="text-xl font-semibold mb-3">{item.title}</h2>
-        <p className="text-gray-600 mb-4">{item.body}</p>
-        <span className="text-sm text-gray-500 ">User #{item.userId}</span>
+        <p className="text-textbody mb-4">{item.body}</p>
+        <span className="text-sm text-textload ">User #{item.userId}</span>
       </div>
     </div>
   );

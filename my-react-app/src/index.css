@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 body {
   font-family: ui-sans-serif;
@@ -8,4 +8,21 @@ body {
 
 @theme {
   --color-primary: oklch(0.72 0.11 178);
+  --color-togsidebar: #09defb;
+
+  --color-sidebar: #0a5bb7bb;
+  --color-hoverfetch: #2a4a73;
+  --color-text1: #ffffff;
+  --color-fetch: #1e3a5f;
+  --color-reset: #dc2626;
+  --color-horeset: #b91c1c;
+  --color-hoaxios: #1d4ed8;
+  --color-axios: #2563eb;
+
+  --color-textload: #6a7282;
+  --color-textid: #155dfc;
+  --color-textbody: #4a5565;
+
+  --color-sidescontent: #27272a;
+  --color-sideconthov: #d1d5dc;
 }

@@ -1,21 +1,21 @@
-import { Link, useLocation } from 'react-router-dom';
-import { cn } from '../utils';
+import { Link, useLocation } from "react-router-dom";
+import { cn } from "../utils";
 
 function Sidebar({ isOpen }) {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', icon: 'fa-home', label: 'Home' },
-    { path: '/Pro', icon: 'fa-th-large', label: 'Product' },
-    { path: '/Pro', icon: 'fa-cog', label: 'Settings' },
-    { path: '/about', icon: 'fa-info-circle', label: 'About' },
+    { path: "/", icon: "fa-home", label: "Home" },
+    { path: "/Pro", icon: "fa-th-large", label: "Product" },
+    { path: "/Pro", icon: "fa-cog", label: "Settings" },
+    { path: "/about", icon: "fa-info-circle", label: "About" },
   ];
 
   return (
     <aside
       className={cn(
-        'bg-[#0a5bb7bb] w-50 h-full px-4 ',
-        isOpen ? 'block' : 'hidden'
+        "bg-sidebar w-50 h-full px-4 ",
+        isOpen ? "block" : "hidden",
       )}
     >
       {navItems.map((item) => (
@@ -26,11 +26,11 @@ function Sidebar({ isOpen }) {
           className={`
             block
             p-3.5
-            text-zinc-800
+            text-sidescontent
             no-underline
             cursor-pointer
-            hover:bg-gray-300 ${
-              location.pathname === item.path ? 'active' : ''
+            hover:bg-sideconthov ${
+              location.pathname === item.path ? "active" : ""
             }`}
         >
           <i className={`fas ${item.icon}`}></i>
