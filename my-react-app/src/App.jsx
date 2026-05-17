@@ -12,6 +12,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path=":id" element={<Details />} />
           <Route path="/Pro" element={<Pro />} />
+          <Route path="/Store" element={<Stroe />} />
         </Route>
       </Routes>
       {/* <div className="font-sans bg-gray-100 min-h-screen border-box"></div> */}
