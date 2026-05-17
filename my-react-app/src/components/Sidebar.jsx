@@ -9,7 +9,7 @@ function Sidebar({ isOpen }) {
     { path: "/Pro", icon: "fa-th-large", label: "Product" },
     { path: "/Pro", icon: "fa-cog", label: "Settings" },
     { path: "/about", icon: "fa-info-circle", label: "About" },
-    { path: "/Store", icon: "fa-cog", label: "Store" },
+    { path: "/Store", icon: "fa-cart-shopping", label: "Store" },
   ];
 
   return (
