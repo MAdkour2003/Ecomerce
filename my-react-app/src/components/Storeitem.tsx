@@ -24,7 +24,7 @@ export default function StoreItem({ id, name, price, icon }: StoreItemProps) {
       </div>
 
       {/* Content - flex-grow pushes button to bottom */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col grow">
         <div className="flex justify-between items-center mb-4">
           <span className="text-xl font-semibold text-gray-800">{name}</span>
           <span className="text-gray-500 font-medium">${price}</span>
