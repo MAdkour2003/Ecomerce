@@ -45,7 +45,7 @@ function Home() {
         </button>
       </div>
       {posts.length === 0 ? (
-        <p className="text-[#6b7280]">Click the button to load posts------</p>
+        <p className="text-textload">Click the button to load posts------</p>
       ) : (
         <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
           {posts.map((post) => (

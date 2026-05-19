@@ -1,4 +1,4 @@
-import { useShopCart } from "../context/ShopCartContext";
+import { useShopCart } from "../context/ShoppingCartContext";
 
 type StoreItemProps = {
   id: number;
@@ -18,19 +18,16 @@ export default function StoreItem({ id, name, price, icon }: StoreItemProps) {
 
   return (
     <div className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition bg-white flex flex-col">
-      {/* Icon - no fixed height, just padding */}
       <div className="w-full bg-gray-50 flex items-center justify-center text-6xl py-12">
         {icon}
       </div>
 
-      {/* Content - flex-grow pushes button to bottom */}
       <div className="p-4 flex flex-col grow">
         <div className="flex justify-between items-center mb-4">
           <span className="text-xl font-semibold text-gray-800">{name}</span>
-          <span className="text-gray-500 font-medium">${price}</span>
+          <span className="text-gray-500 font-medium">{price}</span>
         </div>
 
-        {/* mt-auto pushes this to bottom of card */}
         <div className="mt-auto">
           {quantity === 0 ? (
             <button

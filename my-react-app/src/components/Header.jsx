@@ -1,4 +1,4 @@
-import { useShopCart } from "../context/ShopCartContext";
+import { useShopCart } from "../context/ShoppingCartContext";
 import { cn } from "../utils";
 
 function Header({ toggleSidebar }) {
@@ -7,7 +7,7 @@ function Header({ toggleSidebar }) {
   return (
     <header
       className={cn(
-        "flex items-center justify-between px-5 py-4",
+        "flex items-center justify-between px-5 py-3",
         "bg-primary text-text1 w-full fixed top-0 left-0 z-50",
       )}
     >
