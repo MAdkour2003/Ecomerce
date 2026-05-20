@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import StoreItem from "../components/Storeitem";
+import { useShopCart } from "../context/ShoppingCartContext";
 import axios from "axios";
 
 const Pro = () => {
+  const { increaseItemQuantity } = useShopCart();
   const [Products, setProducts] = useState([]);
   const [visableCount, setvisablecount] = useState(10);
   const [error, seterror] = useState("");
@@ -45,7 +46,13 @@ const Pro = () => {
             </h3>
             <p className="text-textid text-sm">{Product.category}</p>
             <p className="text-price font-extrabold">${Product.price}</p>
-            <StoreItem id={Product.id} />
+            <button
+              onClick={() => increaseItemQuantity(Product.id)}
+              className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
+            >
+              + Add To Cart
+            </button>
+            {/* <StoreItem id={Product.id} /> */}
           </div>
         ))}
       </div>

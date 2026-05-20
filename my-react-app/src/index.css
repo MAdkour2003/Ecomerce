@@ -37,6 +37,9 @@ body {
   --color-incDecbg: #d1d5dc;
   --color-incDechover: #e5e7eb;
 
+  --color-titelcart: #1e2939;
+  --color-categorycart: #6a7282;
+
   --color-showmore: #0a5bb7bb;
   --color-showmorehover: #155dfc;
 }
