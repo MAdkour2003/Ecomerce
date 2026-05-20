@@ -25,4 +25,18 @@ body {
 
   --color-sidescontent: #27272a;
   --color-sideconthov: #d1d5dc;
+
+  --color-title: #000000;
+  --color-error: oklch(50.5% 0.213 27.518);
+  --color-price: #00875a;
+
+  --color-addcart: #155dfc;
+  --color-incDec: #000000;
+  --color-addcarthover: #1447e6;
+  --color-remove: #fb2c36;
+  --color-incDecbg: #d1d5dc;
+  --color-incDechover: #e5e7eb;
+
+  --color-showmore: #0a5bb7bb;
+  --color-showmorehover: #155dfc;
 }
