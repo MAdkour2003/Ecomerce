@@ -1,50 +1,24 @@
-import { useContext, createContext, ReactNode, useState } from "react";
+import { useContext, createContext, useState } from "react";
 
-type ShoppingCartProviderProps = {
-  children: ReactNode;
-};
-
-type CartItem = {
-  id: number;
-  quantity: number;
-};
-
-type ShopCartContext = {
-  OpenCart: () => void;
-  CloseCart: () => void;
-  getItemQuantity: (id: number) => number;
-  increaseItemQuantity: (id: number) => void;
-  decreaseItemQuantity: (id: number) => void;
-  removeItem: (id: number) => void;
-  cartItems: CartItem[];
-  cartQuantity: number;
-};
-
-const ShopCartContext = createContext({} as ShopCartContext);
+const ShopCartContext = createContext({});
 
 export function useShopCart() {
   return useContext(ShopCartContext);
 }
 
-export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  const [isOpen, setIsOpen] = useState(false);
+export function ShoppingCartProvider({ children }) {
+  const [cartItems, setCartItems] = useState([]);
 
   const cartQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
     0,
   );
 
-  const OpenCart = () => setIsOpen(true);
-
-  const CloseCart = () => setIsOpen(false);
-
-  function getItemQuantity(id: number) {
+  function getItemQuantity(id) {
     return cartItems.find((item) => item.id === id)?.quantity || 0;
   }
 
-  function increaseItemQuantity(id: number) {
+  function increaseItemQuantity(id) {
     setCartItems((currentItems) => {
       if (currentItems.find((item) => item.id === id) == null) {
         return [...currentItems, { id, quantity: 1 }];
@@ -60,7 +34,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     });
   }
 
-  function decreaseItemQuantity(id: number) {
+  function decreaseItemQuantity(id) {
     setCartItems((currentItems) => {
       if (currentItems.find((item) => item.id === id)?.quantity === 1) {
         return currentItems.filter((item) => item.id !== id);
@@ -76,7 +50,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     });
   }
 
-  function removeItem(id: number) {
+  function removeItem(id) {
     setCartItems((currentItems) => {
       return currentItems.filter((item) => item.id !== id);
     });
@@ -89,8 +63,6 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         increaseItemQuantity,
         decreaseItemQuantity,
         removeItem,
-        OpenCart,
-        CloseCart,
         cartItems,
         cartQuantity,
       }}

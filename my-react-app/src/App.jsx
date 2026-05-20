@@ -4,8 +4,7 @@ import Home from "./page/Home";
 import Details from "./page/Details";
 import Pro from "./page/Pro";
 import Store from "./page/Store";
-import { ShoppingCartProvider } from "./context/ShoppingCartContext";
-
+import { ShoppingCartProvider } from "./context/ShoppingCartContext.jsx";
 function App() {
   return (
     <ShoppingCartProvider>
