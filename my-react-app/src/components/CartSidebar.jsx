@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useShopCart } from "../context/ShoppingCartContext";
+import StoreItem from "./StoreItem";
 import axios from "axios";
 
 export default function CartSidebar({ isOpen, onClose }) {
-  const { cartItems, increaseItemQuantity, decreaseItemQuantity, removeItem } =
-    useShopCart();
+  const { cartItems } = useShopCart();
 
   const [cartProducts, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,12 +43,9 @@ export default function CartSidebar({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-[60] flex justify-end">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
-      {/* Drawer Panel */}
       <div className="relative w-full max-w-md bg-white h-full shadow-xl overflow-y-auto">
-        {/* Header */}
         <div className="p-4 border-b flex items-center justify-between bg-primary text-text1">
           <h2 className="text-xl font-bold">Your Cart ({cartItems.length})</h2>
           <button onClick={onClose} className="text-2xl hover:text-gray-300">
@@ -56,7 +53,6 @@ export default function CartSidebar({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Content */}
         <div className="p-4">
           {loading ? (
             <p className="text-center text-gray-500 py-8">Loading cart...</p>
@@ -86,29 +82,7 @@ export default function CartSidebar({ isOpen, onClose }) {
                       ${product.price}
                     </p>
 
-                    <div className="flex items-center gap-2 mt-2">
-                      <button
-                        onClick={() => decreaseItemQuantity(product.id)}
-                        className="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 font-bold text-sm"
-                      >
-                        -
-                      </button>
-                      <span className="font-bold text-sm w-6 text-center">
-                        {product.quantity}
-                      </span>
-                      <button
-                        onClick={() => increaseItemQuantity(product.id)}
-                        className="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 font-bold text-sm"
-                      >
-                        +
-                      </button>
-                      <button
-                        onClick={() => removeItem(product.id)}
-                        className="text-red-500 text-xs ml-2 hover:underline"
-                      >
-                        Remove
-                      </button>
-                    </div>
+                    <StoreItem id={product.id} />
                   </div>
                 </div>
               ))}
