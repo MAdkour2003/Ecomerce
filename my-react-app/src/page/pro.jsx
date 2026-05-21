@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useShopCart } from "../context/ShoppingCartContext";
-import axios from "axios";
+import { getProducts } from "../api/api";
 
 const Pro = () => {
   const { increaseItemQuantity } = useShopCart();
@@ -11,8 +12,8 @@ const Pro = () => {
   useEffect(() => {
     const fetchproduct = async () => {
       try {
-        const res = await axios.get("https://fakestoreapi.com/products");
-        setProducts(res.data);
+        const data = await getProducts();
+        setProducts(data);
       } catch (err) {
         seterror("falied to load data ");
       }
@@ -48,11 +49,19 @@ const Pro = () => {
             <p className="text-price font-extrabold">${Product.price}</p>
             <button
               onClick={() => increaseItemQuantity(Product.id)}
-              className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
+              className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-0.5"
             >
               + Add To Cart
             </button>
             {/* <StoreItem id={Product.id} /> */}
+            <div>
+              <Link
+                to={`/store/${Product.id}`}
+                className="text-blue-600 text-sm hover:underline mb-1.5"
+              >
+                View Details
+              </Link>
+            </div>
           </div>
         ))}
       </div>

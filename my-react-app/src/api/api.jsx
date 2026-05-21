@@ -15,3 +15,17 @@ export const fetchDataAxios = () => {
 export const fetchPostById = (id) => {
   return fetch(`${URL}/${id}`).then((res) => res.json());
 };
+
+const api = axios.create({
+  baseURL: "https://fakestoreapi.com",
+});
+
+export const getProducts = () => {
+  return api.get("/products").then((res) => res.data);
+};
+
+export const getProductById = (id) => {
+  return api.get(`/products/${id}`).then((res) => res.data);
+};
+
+export default api;

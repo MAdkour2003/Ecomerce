@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useShopCart } from "../context/ShoppingCartContext";
 import StoreItem from "./StoreItem";
-import axios from "axios";
+import { getProductById } from "../api/api";
 
 export default function CartSidebar({ isOpen, onClose }) {
   const { cartItems } = useShopCart();
@@ -18,13 +18,11 @@ export default function CartSidebar({ isOpen, onClose }) {
     const fetchCartDetails = async () => {
       setLoading(true);
       try {
-        const promises = cartItems.map((item) =>
-          axios.get(`https://fakestoreapi.com/products/${item.id}`),
-        );
+        const promises = cartItems.map((item) => getProductById(item.id));
         const responses = await Promise.all(promises);
 
-        const products = responses.map((res, index) => ({
-          ...res.data,
+        const products = responses.map((data, index) => ({
+          ...data,
           quantity: cartItems[index].quantity,
         }));
 
