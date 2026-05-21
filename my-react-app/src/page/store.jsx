@@ -25,7 +25,6 @@ const Store = () => {
       <p className="text-xl font-bold text-price mt-2">${product.price}</p>
       <p className="text-gray-600 mt-4">{product.description}</p>
 
-      {/* Add to cart button */}
       <div className="mt-6">
         <StoreItem id={product.id} />
       </div>
