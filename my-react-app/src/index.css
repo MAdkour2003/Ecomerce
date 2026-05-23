@@ -1,115 +1,45 @@
 @import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-.body {
+body {
   font-family: ui-sans-serif;
   background-color: white;
-  min-height: 100vh;
   box-sizing: border-box;
 }
-/* This class produces unexpected output during execution  */
-.main-content {
-  margin-left: 200px;
-  padding: 20px;
-  margin-top: 55px;
+
+@theme {
+  --color-primary: oklch(0.72 0.11 178);
+  --color-togsidebar: #09defb;
+
+  --color-sidebar: #0a5bb7bb;
+  --color-hoverfetch: #2a4a73;
+  --color-text1: #ffffff;
+  --color-fetch: #1e3a5f;
+  --color-reset: #dc2626;
+  --color-horeset: #b91c1c;
+  --color-hoaxios: #1d4ed8;
+  --color-axios: #2563eb;
+
+  --color-textload: #6a7282;
+  --color-textid: #155dfc;
+  --color-textbody: #4a5565;
+
+  --color-sidescontent: #27272a;
+  --color-sideconthov: #d1d5dc;
+
+  --color-title: #000000;
+  --color-error: oklch(50.5% 0.213 27.518);
+  --color-price: #00875a;
+
+  --color-addcart: #155dfc;
+  --color-incDec: #000000;
+  --color-addcarthover: #1447e6;
+  --color-remove: #fb2c36;
+  --color-incDecbg: #d1d5dc;
+  --color-incDechover: #e5e7eb;
+
+  --color-titelcart: #1e2939;
+  --color-categorycart: #6a7282;
+
+  --color-showmore: #0a5bb7bb;
+  --color-showmorehover: #155dfc;
 }
-
-.main-content.full {
-  margin-left: 20px;
-}
-
-/* body {
-  font-family: Arial;
-  background: #f0f0f0;
-} */
-
-/* .global-header {
-  background: #035fcf;
-  color: white;
-  padding: 15px 15px 17px 15px;
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-} */
-/* .menu-btn {
-  background: none;
-  border: none;
-  margin: 0px 4px 0px 0px;
-  color: rgb(9, 222, 251);
-  font-size: 20px;
-  cursor: pointer;
-} */
-
-/* .sidebar {
-  background: #0a5bb7bb;
-  width: 200px;
-  height: 100%;
-  position: fixed;
-  top: 55px;
-}
-.sidebar.closed {
-  display: none;
-} */
-/* .nav-item {
-  display: block;
-  padding: 10px;
-  color: #2e2d2d;
-  text-decoration: none;
-  cursor: pointer;
-} */
-/* .nav-item:hover {
-  background: #ddd;
-} */
-
-/* 3shan el sidebar */
-/* .main-content.full {
-  margin-left: 0;
-} */
-
-/* 
-.page-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-} */
-
-/* .items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-} */
-/* 
-.item-card {
-  background: white;
-  padding: 15px;
-  border-radius: 5px;
-} */
-/*
-
-.item-body {
-  text-align: center;
-}
-.item-image {
-  font-size: 60px;
-  margin-bottom: 10px;
-} */
-
-/* .item-title {
-  font-weight: bold;
-  margin: 10px 0;
-} */
-
-/* .item-desc {
-  color: #666;
-  margin-bottom: 10px;
-} */
-/* .view-details-btn {
-  color: blue;
-  text-decoration: none;
-} */

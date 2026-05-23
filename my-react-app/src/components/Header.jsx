@@ -1,20 +1,57 @@
+import { useState } from "react";
+import { useShopCart } from "../context/ShoppingCartContext";
+import { cn } from "../utils";
+import CartSidebar from "./CartSidebar";
+
 function Header({ toggleSidebar }) {
+  const { cartQuantity } = useShopCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleOpenCart = () => setIsCartOpen(true);
+  const handleCloseCart = () => setIsCartOpen(false);
+
   return (
-    // Gh
-    <header className=" h-10  bg-[#035fcf] text-white flex justify-between p-[15px_30px_20px_30px] fixed top-0 left-0 right-0 ml-2">
-      <div className="header-left">
+    <>
+      <header
+        className={cn(
+          "flex items-center justify-between px-5 py-3",
+          "bg-primary text-text1 w-full fixed top-0 left-0 z-50",
+        )}
+      >
+        <div className="flex items-center gap-4">
+          <button
+            className="bg-none border-none text-togsidebar text-xl cursor-pointer"
+            onClick={toggleSidebar}
+          >
+            <i>Toggle</i>
+          </button>
+          <span>LOGO</span>
+        </div>
+
         <button
-          className=" bg-none border-none m-[0px_4px_0px_0px] text-[#09defb] text-xl cursor-pointer "
-          onClick={toggleSidebar}
+          onClick={handleOpenCart}
+          className={cn(
+            "relative w-10 h-10 rounded-full border border-text1 cursor-pointer hover:bg-white/10",
+          )}
         >
-          <i className="fas fa-bars">(",")</i>
+          <i className="fa-solid fa-cart-shopping text-sm"></i>
+
+          {cartQuantity > 0 && (
+            <span
+              className={cn(
+                "absolute -top-1 -right-1 min-w-4.5",
+                "bg-remove text-text1 text-xs font-bold",
+                "rounded-full px-1.5 py-0.5",
+              )}
+            >
+              {cartQuantity}
+            </span>
+          )}
         </button>
-        <span className="header-title">My Website</span>
-      </div>
-      <div className="header-right">
-        <span>Profile</span>
-      </div>
-    </header>
+      </header>
+
+      <CartSidebar isOpen={isCartOpen} onClose={handleCloseCart} />
+    </>
   );
 }
 
