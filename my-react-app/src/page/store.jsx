@@ -6,11 +6,15 @@ import StoreItem from "../components/StoreItem";
 const Store = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    getProductById(id).then((data) => setProduct(data));
+    getProductById(id)
+      .then((data) => setProduct(data))
+      .catch(() => setError("Failed to load product"));
   }, [id]);
 
+  if (error) return <p className="p-6 text-red-500">{error}</p>;
   if (!product) return <p className="p-6 text-center">Loading...</p>;
 
   return (

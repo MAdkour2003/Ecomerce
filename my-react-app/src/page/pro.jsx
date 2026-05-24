@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useShopCart } from "../context/ShoppingCartContext";
+import { increaseItemQuantity } from "../store/cartSlice";
 import { getProducts } from "../api/api";
 
 const Pro = () => {
-  const { increaseItemQuantity } = useShopCart();
+  const dispatch = useDispatch();
   const [Products, setProducts] = useState([]);
   const [visableCount, setvisablecount] = useState(10);
   const [error, seterror] = useState("");
@@ -26,7 +27,7 @@ const Pro = () => {
   };
 
   const visiableProducts = Products.slice(0, visableCount);
-  console.log(visiableProducts);
+
   return (
     <div className="p-6 text-center">
       <h1 className="text-title font-medium mb-8">React Shop</h1>
@@ -47,13 +48,7 @@ const Pro = () => {
             </h3>
             <p className="text-textid text-sm">{Product.category}</p>
             <p className="text-price font-extrabold">${Product.price}</p>
-            <button
-              onClick={() => increaseItemQuantity(Product.id)}
-              className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-0.5"
-            >
-              + Add To Cart
-            </button>
-            {/* <StoreItem id={Product.id} /> */}
+
             <div>
               <Link
                 to={`/store/${Product.id}`}
@@ -62,6 +57,13 @@ const Pro = () => {
                 View Details
               </Link>
             </div>
+
+            <button
+              onClick={() => dispatch(increaseItemQuantity(Product.id))}
+              className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
+            >
+              + Add to Cart
+            </button>
           </div>
         ))}
       </div>

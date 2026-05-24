@@ -1,20 +1,20 @@
-import { useShopCart } from "../context/ShoppingCartContext";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  increaseItemQuantity,
+  decreaseItemQuantity,
+  removeItem,
+} from "../store/cartSlice";
 
 export default function StoreItem({ id }) {
-  const {
-    getItemQuantity,
-    increaseItemQuantity,
-    decreaseItemQuantity,
-    removeItem,
-  } = useShopCart();
-
-  const quantity = getItemQuantity(id);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const quantity = cartItems.find((item) => item.id === id)?.quantity || 0;
 
   if (quantity === 0) {
     return (
       <button
-        onClick={() => increaseItemQuantity(id)}
-        className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
+        onClick={() => dispatch(increaseItemQuantity(id))}
+        className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm hover:bg-blue-700 transition"
       >
         + Add to Cart
       </button>
@@ -22,23 +22,23 @@ export default function StoreItem({ id }) {
   }
 
   return (
-    <div className="flex items-center text-incDec justify-center gap-2 mt-2 mb-2">
+    <div className="flex items-center justify-center gap-2 mt-2">
       <button
-        onClick={() => decreaseItemQuantity(id)}
-        className="w-8 h-8 rounded-full  bg-incDecbg hover:bg-incDechover font-bold text-sm"
+        onClick={() => dispatch(decreaseItemQuantity(id))}
+        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 font-bold text-sm"
       >
         -
       </button>
-      <span className="font-bold text-base text-incDec">{quantity}</span>
+      <span className="font-bold text-base">{quantity}</span>
       <button
-        onClick={() => increaseItemQuantity(id)}
-        className="w-8 h-8 rounded-full bg-incDecbg hover:bg-incDechover font-bold text-sm"
+        onClick={() => dispatch(increaseItemQuantity(id))}
+        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 font-bold text-sm"
       >
         +
       </button>
       <button
-        onClick={() => removeItem(id)}
-        className="text-remove text-xs ml-1 hover:underline"
+        onClick={() => dispatch(removeItem(id))}
+        className="text-red-500 text-xs ml-1 hover:underline"
       >
         Remove
       </button>
