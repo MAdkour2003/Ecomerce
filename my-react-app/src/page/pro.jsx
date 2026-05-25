@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { increaseItemQuantity } from "../store/cartSlice";
 import { getProducts } from "../api/api";
+import StoreItem from "../components/StoreItem";
 
 const Pro = () => {
-  const dispatch = useDispatch();
   const [Products, setProducts] = useState([]);
   const [visableCount, setvisablecount] = useState(10);
   const [error, seterror] = useState("");
@@ -36,10 +34,10 @@ const Pro = () => {
         {visiableProducts.map((Product) => (
           <div
             key={Product.id}
-            className="bg-white text-text1 rounded-lg w-50 p-0.5 shadow hover:translate-1 transition-all duration-300 ease-linear "
+            className="bg-white text-text1 rounded-lg w-50 p-0.5 shadow"
           >
             <img
-              className=" object-contain w-full h-48 mb-4"
+              className="object-contain w-full h-48 mb-4"
               src={Product.image}
               alt=""
             />
@@ -58,12 +56,7 @@ const Pro = () => {
               </Link>
             </div>
 
-            <button
-              onClick={() => dispatch(increaseItemQuantity(Product.id))}
-              className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
-            >
-              + Add to Cart
-            </button>
+            <StoreItem id={Product.id} />
           </div>
         ))}
       </div>

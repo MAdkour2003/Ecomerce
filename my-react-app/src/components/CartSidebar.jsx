@@ -1,17 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  increaseItemQuantity,
-  decreaseItemQuantity,
-  removeItem,
-} from "../store/cartSlice";
+import { useCartStore } from "../store/useCartStore";
 import StoreItem from "./StoreItem";
 import { getProductById } from "../api/api";
 
 export default function CartSidebar({ isOpen, onClose }) {
-  const cartItems = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
-
+  const cartItems = useCartStore((state) => state.items);
   const [cartProducts, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 

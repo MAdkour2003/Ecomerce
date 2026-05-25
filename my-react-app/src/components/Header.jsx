@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useCartStore } from "../store/useCartStore";
 import { cn } from "../utils";
 import CartSidebar from "./CartSidebar";
 
 function Header({ toggleSidebar }) {
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  );
+  const items = useCartStore((state) => state.items);
+  const cartQuantity = items.reduce((total, item) => total + item.quantity, 0);
+
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleOpenCart = () => setIsCartOpen(true);
