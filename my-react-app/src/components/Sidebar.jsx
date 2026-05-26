@@ -5,11 +5,10 @@ function Sidebar({ isOpen }) {
   const location = useLocation();
 
   const navItems = [
-    { path: "/", icon: "fa-home", label: "Home" },
-    { path: "/Pro", icon: "fa-th-large", label: "Product" },
-    { path: "/Pro", icon: "fa-cog", label: "Settings" },
-    { path: "/about", icon: "fa-info-circle", label: "About" },
+    { path: "/", icon: "fa-th-large", label: "Product" },
     { path: "/Store", icon: "fa-cart-shopping", label: "Store" },
+    { path: "/Home", icon: "fa-home", label: "developing " },
+    { path: "/about", icon: "fa-info-circle", label: "About" },
   ];
 
   return (
