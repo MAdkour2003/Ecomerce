@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect } from "react";
+import { useContext, createContext, useState, useEffect, useMemo } from "react";
 
 const ShopCartContext = createContext({});
 
@@ -8,18 +8,17 @@ export function useShopCart() {
 
 export function ShoppingCartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
+    return JSON.parse(localStorage.getItem("cart")) ?? [];
   });
+
+  const cartQuantity = useMemo(
+    () => cartItems.reduce((total, item) => total + item.quantity, 0),
+    [cartItems],
+  );
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
-
-  const cartQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  );
 
   function getItemQuantity(id) {
     return cartItems.find((item) => item.id === id)?.quantity || 0;
@@ -52,9 +51,9 @@ export function ShoppingCartProvider({ children }) {
   return (
     <ShopCartContext.Provider
       value={{
-        getItemQuantity,
         increaseItemQuantity,
         decreaseItemQuantity,
+        getItemQuantity,
         removeItem,
         cartItems,
         cartQuantity,
