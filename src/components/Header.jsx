@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { useShopCart } from "../context/ShoppingCartContext";
+import { useSelector } from "react-redux";
 import { cn } from "../utils";
 import CartSidebar from "./CartSidebar";
 
 function Header({ toggleSidebar }) {
-  const { cartQuantity } = useShopCart();
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleOpenCart = () => setIsCartOpen(true);
@@ -40,7 +44,7 @@ function Header({ toggleSidebar }) {
             <span
               className={cn(
                 "absolute -top-1 -right-1 min-w-4.5",
-                "bg-remove text-text1 text-xs font-bold",
+                "bg-red-500 text-text1 text-xs font-bold",
                 "rounded-full px-1.5 py-0.5",
               )}
             >

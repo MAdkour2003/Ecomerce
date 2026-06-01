@@ -3,15 +3,18 @@ import { useEffect, useState } from 'react';
 import { getProductById } from '../api/api';
 import StoreItem from '../components/StoreItem';
 
-// Todo integrate with store
-const Store = () => {
+const Cart = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    getProductById(id).then((data) => setProduct(data));
+    getProductById(id)
+      .then((data) => setProduct(data))
+      .catch(() => setError('Failed to load product'));
   }, [id]);
 
+  if (error) return <p className='p-6 text-red-500'>{error}</p>;
   if (!product) return <p className='p-6 text-center'>Loading...</p>;
 
   return (
@@ -33,4 +36,4 @@ const Store = () => {
   );
 };
 
-export default Store;
+export default Cart;
