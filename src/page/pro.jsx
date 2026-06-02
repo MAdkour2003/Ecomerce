@@ -1,24 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { increaseItemQuantity } from '../store/cartSlice';
+import { addItem } from '../store/cartSlice';
 import { getProducts } from '../api/api';
 
+// Todo: Change route and component name to Products
 const Pro = () => {
   const dispatch = useDispatch();
   const [Products, setProducts] = useState([]);
   const [visableCount, setvisablecount] = useState(10);
   const [error, seterror] = useState('');
 
+  const fetchproduct = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (err) {
+      seterror('falied to load data ');
+    }
+  };
+
   useEffect(() => {
-    const fetchproduct = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch (err) {
-        seterror('falied to load data ');
-      }
-    };
     fetchproduct();
   }, []);
 
@@ -50,15 +52,16 @@ const Pro = () => {
 
             <div>
               <Link
-                to={`/store/${Product.id}`}
+                to={`/products/${Product.id}`}
                 className='text-blue-600 text-sm hover:underline mb-1.5'
               >
                 View Details
               </Link>
             </div>
 
+            {/* Todo: Extract into a variable */}
             <button
-              onClick={() => dispatch(increaseItemQuantity(Product.id))}
+              onClick={() => dispatch(addItem(Product.id))}
               className='bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2'
             >
               + Add to Cart
