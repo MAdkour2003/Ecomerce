@@ -1,14 +1,11 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { cn } from "../utils";
-import CartSidebar from "./CartSidebar";
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { cn } from '../utils';
+import CartSidebar from './CartSidebar';
+import { selectCartCount } from '../store/cartSlice';
 
 function Header({ toggleSidebar }) {
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  );
+  const cartQuantity = useSelector(selectCartCount);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleOpenCart = () => setIsCartOpen(true);
@@ -18,13 +15,13 @@ function Header({ toggleSidebar }) {
     <>
       <header
         className={cn(
-          "flex items-center justify-between px-5 py-3",
-          "bg-primary text-text1 w-full fixed top-0 left-0 z-50",
+          'flex items-center justify-between px-5 py-3',
+          'bg-primary text-text1 w-full fixed top-0 left-0 z-50'
         )}
       >
-        <div className="flex items-center gap-4">
+        <div className='flex items-center gap-4'>
           <button
-            className="bg-none border-none text-togsidebar text-xl cursor-pointer"
+            className='bg-none border-none text-togsidebar text-xl cursor-pointer'
             onClick={toggleSidebar}
           >
             <i>Toggle</i>
@@ -35,17 +32,17 @@ function Header({ toggleSidebar }) {
         <button
           onClick={handleOpenCart}
           className={cn(
-            "relative w-10 h-10 rounded-full border border-text1 cursor-pointer hover:bg-white/10",
+            'relative w-10 h-10 rounded-full border border-text1 cursor-pointer hover:bg-white/10'
           )}
         >
-          <i className="fa-solid fa-cart-shopping text-sm"></i>
+          <i className='fa-solid fa-cart-shopping text-sm'></i>
 
           {cartQuantity > 0 && (
             <span
               className={cn(
-                "absolute -top-1 -right-1 min-w-4.5",
-                "bg-red-500 text-text1 text-xs font-bold",
-                "rounded-full px-1.5 py-0.5",
+                'absolute -top-1 -right-1 min-w-4.5',
+                'bg-red-500 text-text1 text-xs font-bold',
+                'rounded-full px-1.5 py-0.5'
               )}
             >
               {cartQuantity}

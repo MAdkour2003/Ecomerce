@@ -1,43 +1,59 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-const loadCartFromStorage = () => {
-  try {
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
+// Todo: Add count and total
+const initialState = {
+  items: [],
 };
 
 const cartSlice = createSlice({
-  name: "cart",
-  initialState: {
-    items: loadCartFromStorage(),
-  },
+  name: 'cart',
+  initialState,
   reducers: {
-    increaseItemQuantity: (state, action) => {
-      const item = state.items.find((i) => i.id === action.payload);
-      if (item) {
-        item.quantity += 1;
+    addItem: (state, action) => {
+      const id = action.payload;
+      const existing = state.items.find((i) => i.id === id);
+      if (existing) {
+        existing.quantity += 1;
       } else {
-        state.items.push({ id: action.payload, quantity: 1 });
+        state.items.push({ id, quantity: 1 });
       }
     },
-    decreaseItemQuantity: (state, action) => {
-      const item = state.items.find((i) => i.id === action.payload);
-      if (item.quantity === 1) {
-        state.items = state.items.filter((i) => i.id !== action.payload);
+    removeOne: (state, action) => {
+      const id = action.payload;
+      const existing = state.items.find((i) => i.id === id);
+      if (!existing) return;
+      if (existing.quantity <= 1) {
+        state.items = state.items.filter((i) => i.id !== id);
       } else {
-        item.quantity -= 1;
+        existing.quantity -= 1;
       }
     },
     removeItem: (state, action) => {
       state.items = state.items.filter((i) => i.id !== action.payload);
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { increaseItemQuantity, decreaseItemQuantity, removeItem } =
-  cartSlice.actions;
+export const { addItem, removeOne, removeItem, clearCart } = cartSlice.actions;
+
+// Back-compat aliases for existing call sites.
+export const increaseItemQuantity = addItem;
+export const decreaseItemQuantity = removeOne;
+
+// Selectors
+export const selectCartItems = (state) => state.cart.items;
+
+export const selectCartCount = createSelector([selectCartItems], (items) =>
+  items.reduce((total, item) => total + item.quantity, 0)
+);
+
+export const selectCartQuantityById = (id) =>
+  createSelector(
+    [selectCartItems],
+    (items) => items.find((item) => item.id === id)?.quantity ?? 0
+  );
 
 export default cartSlice.reducer;

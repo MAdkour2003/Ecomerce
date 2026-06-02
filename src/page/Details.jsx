@@ -1,36 +1,46 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchData } from '../api/api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getProductById } from '../api/api';
+import StoreItem from '../components/Storeitem';
 
-function Details() {
+const Details = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [item, setItem] = useState(null);
+  const [product, setProduct] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchData().then((data) => {
-      setItem(data.find((p) => p.id === parseInt(id)));
-    });
+    getProductById(id)
+      .then((data) => setProduct(data))
+      .catch(() => setError('Failed to load product'));
   }, [id]);
 
-  if (!item) return <h2>Loading...</h2>;
+  if (error) return <p className='p-6 text-red-500'>{error}</p>;
+  if (!product) return <p className='p-6 text-center'>Loading...</p>;
 
   return (
-    <div>
+    <div className='p-6 max-w-2xl mx-auto'>
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/products')}
         className='text-4xl font-bold text-sidebar'
       >
         ~ Back to Home
       </button>
-      <div className='p-6 bg-text1 shadow '>
-        <h1 className='text-4xl font-bold text-textid mb-2'>#{item.id}</h1>
-        <h2 className='text-xl font-semibold mb-3'>{item.title}</h2>
-        <p className='text-textbody mb-4'>{item.body}</p>
-        <span className='text-sm text-textload '>User #{item.userId}</span>
+      <img
+        src={product.image}
+        alt={product.title}
+        className='w-full h-64 object-contain mb-4'
+      />
+      <h1 className='text-2xl font-bold '>{product.title}</h1>
+      <p className='text-textbody capitalize'>{product.category}</p>
+      <p className='text-xl font-bold text-price mt-2'>${product.price}</p>
+      <p className='text-textbody mt-4'>{product.description}</p>
+
+      <div className='mt-6'>
+        <StoreItem id={product.id} />
       </div>
     </div>
   );
-}
+};
 
 export default Details;

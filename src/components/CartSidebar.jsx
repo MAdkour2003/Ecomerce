@@ -1,20 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  increaseItemQuantity,
-  decreaseItemQuantity,
-  removeItem,
-} from '../store/cartSlice';
-import { useState, useEffect, useMemo } from 'react';
-import { useShopCart } from '../context/ShoppingCartContext';
-import StoreItem from './StoreItem';
+import { useSelector } from 'react-redux';
+import StoreItem from './Storeitem';
 import { getProductById } from '../api/api';
-
-// Data Structure
+import { selectCartItems } from '../store/cartSlice';
 
 export default function CartSidebar({ isOpen, onClose }) {
-  const cartItems = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
 
   const [cartProducts, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(false);
