@@ -9,7 +9,7 @@ import {
 } from "../store/cartSlice";
 import { getProducts } from "../api/api";
 // Todo: Change route and component name to Products
-const Pro = () => {
+const Products = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
   const [Products, setProducts] = useState([]);
@@ -121,4 +121,4 @@ const Pro = () => {
   );
 };
 
-export default Pro;
+export default Products;
