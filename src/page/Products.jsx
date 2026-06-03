@@ -6,12 +6,22 @@ import {
   decreaseItemQuantity,
   removeItem,
   selectCartItems,
+  selectCartCount,
+  selectCartItemTotals,
+  selectCartQuantities,
 } from "../store/cartSlice";
 import { getProducts } from "../api/api";
+
 // Todo: Change route and component name to Products
 const Products = () => {
   const dispatch = useDispatch();
+
+  const Totals = useSelector(selectCartItemTotals);
+  const cartQuantities = useSelector(selectCartQuantities);
+
   const cartItems = useSelector(selectCartItems);
+  const count = useSelector(selectCartCount);
+
   const [Products, setProducts] = useState([]);
   const [visableCount, setvisablecount] = useState(10);
   const [error, seterror] = useState("");
@@ -41,6 +51,8 @@ const Products = () => {
       <div className="flex flex-wrap justify-center gap-5">
         {visiableProducts.map((Product) => {
           const cartItem = cartItems.find((item) => item.id === Product.id);
+          const itemTotal = Totals[Product.id] || 0;
+          const quantity = cartQuantities[Product.id] || 0;
 
           return (
             <div
@@ -72,37 +84,54 @@ const Products = () => {
 
               {!cartItem ? (
                 <button
-                  onClick={() => dispatch(increaseItemQuantity(Product.id))}
+                  onClick={() =>
+                    dispatch(
+                      increaseItemQuantity({
+                        id: Product.id,
+                        price: Product.price,
+                      }),
+                    )
+                  }
                   className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
                 >
                   + Add to Cart
                 </button>
               ) : (
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <button
-                    onClick={() => dispatch(decreaseItemQuantity(Product.id))}
-                    className="px-2 py-1 bg-incDecbg rounded"
-                  >
-                    -
-                  </button>
+                <div className="flex flex-col items-center justify-center gap-2 mb-2">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <button
+                      onClick={() => dispatch(decreaseItemQuantity(Product.id))}
+                      className="px-2 py-1 bg-incDecbg rounded"
+                    >
+                      -
+                    </button>
 
-                  <span className="font-bold text-black">
-                    {cartItem.quantity}
-                  </span>
+                    <span className="font-bold text-black">{quantity}</span>
 
-                  <button
-                    onClick={() => dispatch(increaseItemQuantity(Product.id))}
-                    className="px-2 py-1 bg-incDecbg rounded"
-                  >
-                    +
-                  </button>
+                    <button
+                      onClick={() =>
+                        dispatch(
+                          increaseItemQuantity({
+                            id: Product.id,
+                            price: Product.price,
+                          }),
+                        )
+                      }
+                      className="px-2 py-1 bg-incDecbg rounded"
+                    >
+                      +
+                    </button>
 
-                  <button
-                    onClick={() => dispatch(removeItem(Product.id))}
-                    className="px-2 py-1 bg-remove text-text1 rounded"
-                  >
-                    Remove
-                  </button>
+                    <button
+                      onClick={() => dispatch(removeItem(Product.id))}
+                      className="px-2 py-1 bg-remove text-text1 rounded"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <p className="font-bold text-black">
+                    ${itemTotal.toFixed(2)}
+                  </p>
                 </div>
               )}
             </div>
