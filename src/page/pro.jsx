@@ -64,7 +64,7 @@ const Pro = () => {
               onClick={() => dispatch(addItem(Product.id))}
               className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
             >
-              + Add to Cart
+              + Add to Cart test
             </button>
           </div>
         ))}
