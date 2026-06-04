@@ -129,7 +129,7 @@ const Products = () => {
                       Remove
                     </button>
                   </div>
-                  <p className="font-bold text-black">
+                  <p className="font-bold text-categorycart">
                     ${itemTotal.toFixed(2)}
                   </p>
                 </div>
