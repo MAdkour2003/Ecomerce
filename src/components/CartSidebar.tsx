@@ -1,18 +1,28 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import StoreItem from "./Storeitem";
-import { getProductById } from "../api/api";
-import { selectCartItems } from "../store/cartSlice";
+import { useState, useEffect, useRef } from 'react';
+import { useAppSelector } from '../store/hooks';
+import StoreItem from './Storeitem';
+import { getProductById } from '../api/api';
+import { selectCartItems } from '../store/cartSlice';
+import type { Product, CartItem } from '../types';
 
-export default function CartSidebar({ isOpen, onClose }) {
-  const cartItems = useSelector(selectCartItems);
+interface CartSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const [cartProducts, setCartProducts] = useState([]);
+interface CartProduct extends Product {
+  quantity: number;
+}
+
+export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
+  const cartItems = useAppSelector(selectCartItems);
+
+  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const productCache = useRef({});
+  const productCache = useRef<Record<number, Product>>({});
 
-  const fetchCartDetails = async (itemsToFetch) => {
+  const fetchCartDetails = async (itemsToFetch: CartItem[]) => {
     if (itemsToFetch.length === 0) return;
 
     setLoading(true);
@@ -25,14 +35,14 @@ export default function CartSidebar({ isOpen, onClose }) {
       });
 
       const products = cartItems.map((item) => ({
-        ...productCache.current[item.id],
+        ...(productCache.current[item.id] as Product),
         id: item.id,
         quantity: item.quantity,
       }));
 
       setCartProducts(products);
     } catch (err) {
-      console.error("Failed to fetch cart products", err);
+      console.error('Failed to fetch cart products', err);
     } finally {
       setLoading(false);
     }
@@ -44,20 +54,19 @@ export default function CartSidebar({ isOpen, onClose }) {
       return;
     }
 
-    const itemsToFetch = cartItems.filter(
-      (item) => !productCache.current[item.id],
-    );
+    const itemsToFetch = cartItems.filter((item) => !productCache.current[item.id]);
 
     if (itemsToFetch.length > 0) {
-      fetchCartDetails(itemsToFetch);
+      void fetchCartDetails(itemsToFetch);
     } else {
       const products = cartItems.map((item) => ({
-        ...productCache.current[item.id],
+        ...(productCache.current[item.id] as Product),
         id: item.id,
         quantity: item.quantity,
       }));
       setCartProducts(products);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, cartItems.length]);
 
   if (!isOpen) return null;
@@ -81,32 +90,24 @@ export default function CartSidebar({ isOpen, onClose }) {
             <p className="text-center text-textload py-8">Your cart is empty</p>
           ) : (
             <div className="space-y-4">
-              {cartProducts.map(
-                ({ id, image, title, category, price, quantity }) => (
-                  <div
-                    key={id}
-                    className="flex gap-3 border rounded-lg p-3 hover:shadow-md transition"
-                  >
-                    <img
-                      src={image}
-                      alt={title}
-                      className="w-20 h-20 object-contain"
-                    />
+              {cartProducts.map(({ id, image, title, category, price }) => (
+                <div
+                  key={id}
+                  className="flex gap-3 border rounded-lg p-3 hover:shadow-md transition"
+                >
+                  <img src={image} alt={title} className="w-20 h-20 object-contain" />
 
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-sm text-titelcart line-clamp-2">
-                        {title}
-                      </h3>
-                      <p className="text-categorycart text-xs mt-1">
-                        {category}
-                      </p>
-                      <p className="text-price font-bold mt-1">${price}</p>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-sm text-titelcart line-clamp-2">
+                      {title}
+                    </h3>
+                    <p className="text-categorycart text-xs mt-1">{category}</p>
+                    <p className="text-price font-bold mt-1">${price}</p>
 
-                      <StoreItem id={id} price={price} />
-                    </div>
+                    <StoreItem id={id} price={price} />
                   </div>
-                ),
-              )}
+                </div>
+              ))}
             </div>
           )}
         </div>

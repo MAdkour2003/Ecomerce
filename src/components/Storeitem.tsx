@@ -1,21 +1,24 @@
-import { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useMemo } from 'react';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
 import {
   addItem,
   removeOne,
   removeItem,
   selectCartQuantityById,
   selectCartItemTotals,
-} from "../store/cartSlice";
+} from '../store/cartSlice';
 
-export default function StoreItem({ id, price }) {
-  const dispatch = useDispatch();
+interface StoreItemProps {
+  id: number;
+  price: number;
+}
+
+export default function StoreItem({ id, price }: StoreItemProps) {
+  const dispatch = useAppDispatch();
   const selectQuantity = useMemo(() => selectCartQuantityById(id), [id]);
-  const quantity = useSelector(selectQuantity);
-
-  const totals = useSelector(selectCartItemTotals);
-
-  const itemTotal = totals[id] || 0;
+  const quantity = useAppSelector(selectQuantity);
+  const totals = useAppSelector(selectCartItemTotals);
+  const itemTotal = totals[id] ?? 0;
 
   if (quantity === 0) {
     return (
@@ -31,9 +34,7 @@ export default function StoreItem({ id, price }) {
   return (
     <div className="flex items-center justify-center gap-2 mt-2">
       <div className="bg-categorycart/10 px-4 py-1.5 rounded-full border border-categorycart/20">
-        <p className="font-bold text-price text-base">
-          ${itemTotal.toFixed(2)}
-        </p>
+        <p className="font-bold text-price text-base">${itemTotal.toFixed(2)}</p>
       </div>
       <button
         onClick={() => dispatch(removeOne(id))}
