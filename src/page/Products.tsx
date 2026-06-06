@@ -1,81 +1,79 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { Link } from 'react-router-dom';
 import {
   increaseItemQuantity,
   decreaseItemQuantity,
   removeItem,
   selectCartItems,
-  selectCartCount,
   selectCartItemTotals,
   selectCartQuantities,
-} from "../store/cartSlice";
-import { getProducts } from "../api/api";
+} from '../store/cartSlice';
+import { getProducts } from '../api/api';
+import type { Product } from '../types';
 
-// Todo: Change route and component name to Products
 const Products = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const Totals = useSelector(selectCartItemTotals);
-  const cartQuantities = useSelector(selectCartQuantities);
+  const totals = useAppSelector(selectCartItemTotals);
+  const cartQuantities = useAppSelector(selectCartQuantities);
+  const cartItems = useAppSelector(selectCartItems);
 
-  const cartItems = useSelector(selectCartItems);
-  const count = useSelector(selectCartCount);
+  const [productList, setProductList] = useState<Product[]>([]);
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [error, setError] = useState('');
 
-  const [Products, setProducts] = useState([]);
-  const [visableCount, setvisablecount] = useState(10);
-  const [error, seterror] = useState("");
-
-  const fetchproduct = async () => {
+  const fetchProducts = async () => {
     try {
       const data = await getProducts();
-      setProducts(data);
-    } catch (err) {
-      seterror("falied to load data ");
+      setProductList(data);
+    } catch {
+      setError('Failed to load data');
     }
   };
 
   useEffect(() => {
-    fetchproduct();
+    void fetchProducts();
   }, []);
 
-  const showmore = () => {
-    setvisablecount((prev) => prev + 10);
+  const showMore = () => {
+    setVisibleCount((prev) => prev + 10);
   };
 
-  const visiableProducts = Products.slice(0, visableCount);
+  const visibleProducts = productList.slice(0, visibleCount);
+
   return (
     <div className="p-6 text-center">
       <h1 className="text-title font-medium mb-8">React Shop</h1>
       {error && <p className="text-error font-bold">{error}</p>}
       <div className="flex flex-wrap justify-center gap-5">
-        {visiableProducts.map((Product) => {
-          const cartItem = cartItems.find((item) => item.id === Product.id);
-          const itemTotal = Totals[Product.id] || 0;
-          const quantity = cartQuantities[Product.id] || 0;
+        {visibleProducts.map((product) => {
+          const cartItem = cartItems.find((item) => item.id === product.id);
+          const itemTotal = totals[product.id] ?? 0;
+          const quantity = cartQuantities[product.id] ?? 0;
 
           return (
             <div
-              key={Product.id}
+              key={product.id}
               className="bg-white text-text1 rounded-lg w-50 p-0.5 shadow hover:translate-1 transition-all duration-300 ease-linear"
             >
               <img
                 className="object-contain w-full h-48 mb-4"
-                src={Product.image}
-                alt={Product.title}
+                src={product.image}
+                alt={product.title}
               />
 
               <h3 className="font-bold text-sm text-black overflow-hidden">
-                {Product.title}
+                {product.title}
               </h3>
 
-              <p className="text-textid text-sm">{Product.category}</p>
+              <p className="text-textid text-sm">{product.category}</p>
 
-              <p className="text-price font-extrabold">${Product.price}</p>
+              <p className="text-price font-extrabold">${product.price}</p>
 
               <div>
                 <Link
-                  to={`/detailed/${Product.id}`}
+                  to={`/detailed/${product.id}`}
                   className="text-textid text-sm hover:underline mb-1.5"
                 >
                   View Details
@@ -86,10 +84,7 @@ const Products = () => {
                 <button
                   onClick={() =>
                     dispatch(
-                      increaseItemQuantity({
-                        id: Product.id,
-                        price: Product.price,
-                      }),
+                      increaseItemQuantity({ id: product.id, price: product.price }),
                     )
                   }
                   className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition mb-2"
@@ -100,7 +95,7 @@ const Products = () => {
                 <div className="flex flex-col items-center justify-center gap-2 mb-2">
                   <div className="flex items-center justify-center gap-2 mb-2">
                     <button
-                      onClick={() => dispatch(decreaseItemQuantity(Product.id))}
+                      onClick={() => dispatch(decreaseItemQuantity(product.id))}
                       className="px-2 py-1 bg-incDecbg rounded"
                     >
                       -
@@ -111,10 +106,7 @@ const Products = () => {
                     <button
                       onClick={() =>
                         dispatch(
-                          increaseItemQuantity({
-                            id: Product.id,
-                            price: Product.price,
-                          }),
+                          increaseItemQuantity({ id: product.id, price: product.price }),
                         )
                       }
                       className="px-2 py-1 bg-incDecbg rounded"
@@ -123,24 +115,22 @@ const Products = () => {
                     </button>
 
                     <button
-                      onClick={() => dispatch(removeItem(Product.id))}
+                      onClick={() => dispatch(removeItem(product.id))}
                       className="px-2 py-1 bg-remove text-text1 rounded"
                     >
                       Remove
                     </button>
                   </div>
-                  <p className="font-bold text-categorycart">
-                    ${itemTotal.toFixed(2)}
-                  </p>
+                  <p className="font-bold text-categorycart">${itemTotal.toFixed(2)}</p>
                 </div>
               )}
             </div>
           );
         })}
       </div>
-      {visableCount < Products.length && (
+      {visibleCount < productList.length && (
         <button
-          onClick={showmore}
+          onClick={showMore}
           className="text-text1 mt-4 p-2 border-none bg-showmore hover:bg-showmorehover rounded-full text-center w-1/2"
         >
           show more
