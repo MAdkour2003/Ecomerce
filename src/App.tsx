@@ -8,10 +8,10 @@ import Details from './page/Details';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path='/' element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/detailed/:id" element={<Details />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/detailed/:id' element={<Details />} />
       </Route>
     </Routes>
   );
