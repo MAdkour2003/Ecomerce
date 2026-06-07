@@ -10,15 +10,3 @@ export interface Product {
     count: number;
   };
 }
-
-export interface CartItem {
-  id: number;
-  price: number;
-  quantity: number;
-}
-
-export interface CartState {
-  items: CartItem[];
-  count: number;
-  total: number;
-}
