@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '../utils';
 import CartSidebar from './CartSidebar';
 import { useCartCount } from '../store';
+import { useAuthStore } from '../store/authStore';
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -10,9 +12,16 @@ interface HeaderProps {
 function Header({ toggleSidebar }: HeaderProps) {
   const cartQuantity = useCartCount();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const clearAuth = useAuthStore((s) => s.clearAuth);
+  const navigate = useNavigate();
 
   const handleOpenCart = () => setIsCartOpen(true);
   const handleCloseCart = () => setIsCartOpen(false);
+
+  const handleLogout = () => {
+    clearAuth();
+    navigate('/login', { replace: true });
+  };
 
   return (
     <>
@@ -32,26 +41,38 @@ function Header({ toggleSidebar }: HeaderProps) {
           <span>LOGO</span>
         </div>
 
-        <button
-          onClick={handleOpenCart}
-          className={cn(
-            'relative w-10 h-10 rounded-full border border-text1 cursor-pointer hover:bg-white/10'
-          )}
-        >
-          <i className='fa-solid fa-cart-shopping text-sm'></i>
+        <div className='flex items-center gap-3'>
+          <button
+            onClick={handleOpenCart}
+            className={cn(
+              'relative w-10 h-10 rounded-full border border-text1 cursor-pointer hover:bg-white/10'
+            )}
+          >
+            <i className='fa-solid fa-cart-shopping text-sm'></i>
 
-          {cartQuantity > 0 && (
-            <span
-              className={cn(
-                'absolute -top-1 -right-1 min-w-4.5',
-                'bg-red-500 text-text1 text-xs font-bold',
-                'rounded-full px-1.5 py-0.5'
-              )}
-            >
-              {cartQuantity}
-            </span>
-          )}
-        </button>
+            {cartQuantity > 0 && (
+              <span
+                className={cn(
+                  'absolute -top-1 -right-1 min-w-4.5',
+                  'bg-red-500 text-text1 text-xs font-bold',
+                  'rounded-full px-1.5 py-0.5'
+                )}
+              >
+                {cartQuantity}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className={cn(
+              'px-3 py-1.5 rounded-lg text-xs font-semibold',
+              'border border-text1/50 hover:bg-white/10 transition-colors'
+            )}
+          >
+            Logout
+          </button>
+        </div>
       </header>
 
       <CartSidebar isOpen={isCartOpen} onClose={handleCloseCart} />
