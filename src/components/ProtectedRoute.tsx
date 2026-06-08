@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import { useIsAuthenticated, useHasHydrated } from '../store/authStore';
 
 function ProtectedRoute() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const hasHydrated = useAuthStore((s) => s._hasHydrated);
+  const isAuthenticated = useIsAuthenticated();
+  const hasHydrated = useHasHydrated();
 
   if (!hasHydrated) return null;
 

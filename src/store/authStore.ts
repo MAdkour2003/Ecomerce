@@ -42,3 +42,18 @@ export const useAuthStore = create<AuthStore>()(
     }
   )
 );
+
+export const useIsAuthenticated = (): boolean =>
+  useAuthStore((s) => s.isAuthenticated);
+
+export const useHasHydrated = (): boolean =>
+  useAuthStore((s) => s._hasHydrated);
+
+export const useAuthUser = (): AuthUser | null =>
+  useAuthStore((s) => s.user);
+
+export const useAuthActions = (): Pick<AuthActions, 'setAuth' | 'clearAuth'> => {
+  const setAuth = useAuthStore((s) => s.setAuth);
+  const clearAuth = useAuthStore((s) => s.clearAuth);
+  return { setAuth, clearAuth };
+};

@@ -1,12 +1,12 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../api/authApi';
-import { useAuthStore } from '../store/authStore';
+import { useAuthActions } from '../store/authStore';
 import { cn } from '../utils';
 
 function Signup() {
   const navigate = useNavigate();
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const { setAuth } = useAuthActions();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
