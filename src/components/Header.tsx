@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { cn } from '../utils';
 import CartSidebar from './CartSidebar';
 import { useCartCount } from '../store';
-import { useAuthStore } from '../store/authStore';
+import { useAuthActions } from '../store/authStore';
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -12,7 +12,7 @@ interface HeaderProps {
 function Header({ toggleSidebar }: HeaderProps) {
   const cartQuantity = useCartCount();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const clearAuth = useAuthStore((s) => s.clearAuth);
+  const { clearAuth } = useAuthActions();
   const navigate = useNavigate();
 
   const handleOpenCart = () => setIsCartOpen(true);
