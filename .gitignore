@@ -24,6 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# AI 
+# Env files
+backend/.env
+
+# AI
 .planning
 .claude
