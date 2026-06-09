@@ -1,10 +1,13 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { addUser } from '../api/usersApi';
+import { login } from '../api/authApi';
+import { useAuthActions } from '../store/authStore';
 import { cn } from '../utils';
 
 function Signup() {
   const navigate = useNavigate();
+  const { setAuth } = useAuthActions();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +46,9 @@ function Signup() {
         },
         phone: '',
       });
-      navigate('/login', { replace: true });
+      const { token } = await login(username, password);
+      setAuth(token);
+      navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
