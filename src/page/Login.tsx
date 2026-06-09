@@ -35,7 +35,7 @@ function Login() {
     <div className='min-h-screen flex items-center justify-center bg-bgcolorWH px-4'>
       <div className='w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden'>
         <div className='bg-primary px-6 py-5'>
-          <span className='text-text1 text-xl font-bold tracking-wide'>LOGO</span>
+          <span className='text-text1 text-xl font-bold tracking-wide'>MyShop</span>
           <p className='text-text1/80 text-sm mt-1'>Sign in to your account</p>
         </div>
 

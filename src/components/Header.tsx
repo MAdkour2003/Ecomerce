@@ -38,7 +38,7 @@ function Header({ toggleSidebar }: HeaderProps) {
           >
             <i>Toggle</i>
           </button>
-          <span>LOGO</span>
+          <span>MyShop</span>
         </div>
 
         <div className='flex items-center gap-3'>
