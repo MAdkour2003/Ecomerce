@@ -2,46 +2,49 @@
 
 body {
   font-family: ui-sans-serif;
-  background-color: white;
+  background-color: #fafaf5;
   box-sizing: border-box;
 }
 
 @theme {
-  --color-primary: oklch(0.72 0.11 178);
-  --color-togsidebar: #09defb;
+  --color-primary: #b5813a;
 
-  --color-sidebar: #0a5bb7bb;
-  --color-hoverfetch: #2a4a73;
+  --color-togsidebar: #c9963f;
+  --color-sidebar: #4a3520bb;
+
+  --color-fetch: #4a3520;
+  --color-hoverfetch: #2e1f0f;
+  --color-axios: #b5813a;
+  --color-hoaxios: #966a28;
+
   --color-text1: #ffffff;
-  --color-fetch: #1e3a5f;
-  --color-reset: #dc2626;
-  --color-horeset: #b91c1c;
-  --color-hoaxios: #1d4ed8;
-  --color-axios: #2563eb;
+  --color-textload: #9b7d5a;
+  --color-textid: #b5813a;
+  --color-textbody: #5a4230;
 
-  --color-textload: #6a7282;
-  --color-textid: #155dfc;
-  --color-textbody: #4a5565;
+  --color-title: #3c2a14;
 
-  --color-bgcolorWH: #d1d5dc;
+  --color-bgcolorWH: #eee8dc;
 
-  --color-sidescontent: #27272a;
-  --color-sideconthov: #d1d5dc;
+  --color-sidescontent: #2e1f0f;
+  --color-sideconthov: #eee8dc;
 
-  --color-title: #000000;
   --color-error: oklch(50.5% 0.213 27.518);
-  --color-price: #00875a;
+  --color-reset: #c0392b;
+  --color-horeset: #a93226;
 
-  --color-addcart: #155dfc;
-  --color-incDec: #000000;
-  --color-addcarthover: #1447e6;
-  --color-remove: #fb2c36;
-  --color-incDecbg: #d1d5dc;
-  --color-incDechover: #e5e7eb;
+  --color-price: #4e7c5f;
 
-  --color-titelcart: #1e2939;
-  --color-categorycart: #6a7282;
+  --color-addcart: #b5813a;
+  --color-addcarthover: #966a28;
+  --color-incDec: #3c2a14;
+  --color-incDecbg: #eee8dc;
+  --color-incDechover: #e0d5c3;
+  --color-remove: #c0392b;
 
-  --color-showmore: #0a5bb7bb;
-  --color-showmorehover: #155dfc;
+  --color-titelcart: #2e1f0f;
+  --color-categorycart: #9b7d5a;
+
+  --color-showmore: #b5813abb;
+  --color-showmorehover: #b5813a;
 }
