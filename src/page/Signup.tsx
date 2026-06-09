@@ -33,7 +33,7 @@ function Signup() {
 
     try {
       saveLocalUser(username, password);
-      await addUser({
+      const newUser = await addUser({
         username,
         password,
         email: `${username}@example.com`,
@@ -48,7 +48,7 @@ function Signup() {
         phone: '',
       });
       const { token } = await login(username, password);
-      setAuth(token);
+      setAuth(token, { id: newUser.id, username, email: `${username}@example.com` });
       navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =

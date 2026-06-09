@@ -20,7 +20,7 @@ function Login() {
 
     try {
       const { token } = await login(username, password);
-      setAuth(token);
+      setAuth(token, { id: 0, username, email: '' });
       navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =
