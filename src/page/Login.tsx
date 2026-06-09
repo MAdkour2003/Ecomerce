@@ -8,7 +8,7 @@ function Login() {
   const navigate = useNavigate();
   const { setAuth } = useAuthActions();
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,13 +19,13 @@ function Login() {
     setLoading(true);
 
     try {
-      const { token, user } = await login(email, password);
-      setAuth(token, user);
+      const { token } = await login(username, password);
+      setAuth(token);
       navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
-      setError(msg || 'Invalid email or password');
+      setError(msg || 'Invalid username or password');
     } finally {
       setLoading(false);
     }
@@ -41,14 +41,14 @@ function Login() {
 
         <form onSubmit={handleSubmit} className='px-6 py-6 space-y-4'>
           <div className='space-y-1'>
-            <label className='text-sm font-medium text-textbody'>Email</label>
+            <label className='text-sm font-medium text-textbody'>Username</label>
             <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type='text'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               autoFocus
-              placeholder='you@example.com'
+              placeholder='your username'
               className={cn(
                 'w-full px-3 py-2 rounded-lg border text-sm outline-none',
                 'border-bgcolorWH focus:border-primary transition-colors'

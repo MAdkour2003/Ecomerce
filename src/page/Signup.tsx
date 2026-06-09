@@ -1,14 +1,12 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signup } from '../api/authApi';
-import { useAuthActions } from '../store/authStore';
+import { addUser } from '../api/usersApi';
 import { cn } from '../utils';
 
 function Signup() {
   const navigate = useNavigate();
-  const { setAuth } = useAuthActions();
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
@@ -31,9 +29,21 @@ function Signup() {
     setLoading(true);
 
     try {
-      const { token, user } = await signup(email, password);
-      setAuth(token, user);
-      navigate('/', { replace: true });
+      await addUser({
+        username,
+        password,
+        email: `${username}@example.com`,
+        name: { firstname: '', lastname: '' },
+        address: {
+          city: '',
+          street: '',
+          number: 0,
+          zipcode: '',
+          geolocation: { lat: '0', long: '0' },
+        },
+        phone: '',
+      });
+      navigate('/login', { replace: true });
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
@@ -53,14 +63,14 @@ function Signup() {
 
         <form onSubmit={handleSubmit} className='px-6 py-6 space-y-4'>
           <div className='space-y-1'>
-            <label className='text-sm font-medium text-textbody'>Email</label>
+            <label className='text-sm font-medium text-textbody'>Username</label>
             <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type='text'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               autoFocus
-              placeholder='you@example.com'
+              placeholder='choose a username'
               className={cn(
                 'w-full px-3 py-2 rounded-lg border text-sm outline-none',
                 'border-bgcolorWH focus:border-primary transition-colors'
