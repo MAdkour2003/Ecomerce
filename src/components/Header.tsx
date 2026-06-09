@@ -36,7 +36,7 @@ function Header({ toggleSidebar }: HeaderProps) {
             className='bg-none border-none text-togsidebar text-xl cursor-pointer'
             onClick={toggleSidebar}
           >
-            <i>Toggle</i>
+            <i className='fas fa-bars'></i>
           </button>
           <span>MyShop</span>
         </div>
