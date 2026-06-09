@@ -11,7 +11,7 @@ function Profile() {
   const { clearAuth, setAuth } = useAuthActions();
   const navigate = useNavigate();
 
-  const userId = user?.id || 1;
+  const userId = user?.id ?? 1;
 
   const [username, setUsername] = useState(user?.username ?? '');
   const [password, setPassword] = useState('');
@@ -24,6 +24,7 @@ function Profile() {
 
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault();
+    if (!token) return;
     setUpdateMsg(null);
     setUpdateLoading(true);
     const oldUsername = user?.username ?? '';
@@ -31,8 +32,8 @@ function Profile() {
       const payload: { username: string; password?: string } = { username };
       if (password) payload.password = password;
       await updateUser(userId, payload);
-      updateLocalUser(oldUsername, username, password || undefined);
-      setAuth(token!, { id: userId, username, email: user?.email ?? '' });
+      await updateLocalUser(oldUsername, username, password || undefined);
+      setAuth(token, { id: userId, username, email: user?.email ?? '' });
       setPassword('');
       setUpdateMsg({ ok: true, text: 'Account updated successfully.' });
     } catch {
@@ -59,7 +60,6 @@ function Profile() {
     <div className='p-6 max-w-lg'>
       <h1 className='mb-6 text-4xl font-semibold text-sidebar'>My Profile</h1>
 
-      {/* User info card */}
       <div className='bg-white rounded-2xl shadow-sm border border-bgcolorWH p-5 mb-6 flex items-center gap-4'>
         <div className='w-14 h-14 rounded-full bg-primary flex items-center justify-center flex-shrink-0'>
           <i className='fas fa-user text-text1 text-xl'></i>
@@ -72,7 +72,6 @@ function Profile() {
         </div>
       </div>
 
-      {/* Update account */}
       <div className='bg-white rounded-2xl shadow-sm border border-bgcolorWH p-6 mb-6'>
         <h2 className='text-base font-semibold text-textbody mb-4'>Update Account</h2>
         <form onSubmit={handleUpdate} className='space-y-4'>
@@ -123,7 +122,6 @@ function Profile() {
         </form>
       </div>
 
-      {/* Delete account */}
       <div className='bg-white rounded-2xl shadow-sm border border-red-100 p-6'>
         <h2 className='text-base font-semibold text-error mb-1'>Delete Account</h2>
         <p className='text-sm text-textload mb-4'>

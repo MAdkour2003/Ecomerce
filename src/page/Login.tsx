@@ -19,8 +19,8 @@ function Login() {
     setLoading(true);
 
     try {
-      const { token } = await login(username, password);
-      setAuth(token, { id: 0, username, email: '' });
+      const { token, user } = await login(username, password);
+      setAuth(token, user);
       navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =
