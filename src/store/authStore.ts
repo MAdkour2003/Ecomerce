@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { AuthUser } from '../api/authApi';
+
+export interface AuthUser {
+  id: number;
+  username: string;
+  email: string;
+}
 
 interface AuthState {
   token: string | null;
@@ -10,7 +15,7 @@ interface AuthState {
 }
 
 interface AuthActions {
-  setAuth: (token: string, user: AuthUser) => void;
+  setAuth: (token: string, user?: AuthUser | null) => void;
   clearAuth: () => void;
   setHasHydrated: (value: boolean) => void;
 }
@@ -24,7 +29,7 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       isAuthenticated: false,
       _hasHydrated: false,
-      setAuth: (token, user) => set({ token, user, isAuthenticated: true }),
+      setAuth: (token, user = null) => set({ token, user, isAuthenticated: true }),
       clearAuth: () => set({ token: null, user: null, isAuthenticated: false }),
       setHasHydrated: (value) => set({ _hasHydrated: value }),
     }),
@@ -51,6 +56,9 @@ export const useHasHydrated = (): boolean =>
 
 export const useAuthUser = (): AuthUser | null =>
   useAuthStore((s) => s.user);
+
+export const useAuthToken = (): string | null =>
+  useAuthStore((s) => s.token);
 
 export const useAuthActions = (): Pick<AuthActions, 'setAuth' | 'clearAuth'> => {
   const setAuth = useAuthStore((s) => s.setAuth);

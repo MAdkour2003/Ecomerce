@@ -1,19 +1,10 @@
-import axios from 'axios';
+import api from './api';
 
 export interface AuthUser {
-  id: string;
+  id: number;
+  username: string;
   email: string;
 }
 
-export interface AuthResponse {
-  token: string;
-  user: AuthUser;
-}
-
-const authApi = axios.create({ timeout: 10000 });
-
-export const login = (email: string, password: string): Promise<AuthResponse> =>
-  authApi.post<AuthResponse>('/api/users/login', { email, password }).then((r) => r.data);
-
-export const signup = (email: string, password: string): Promise<AuthResponse> =>
-  authApi.post<AuthResponse>('/api/users/signup', { email, password }).then((r) => r.data);
+export const login = (username: string, password: string): Promise<{ token: string }> =>
+  api.post<{ token: string }>('/auth/login', { username, password }).then((r) => r.data);
