@@ -10,15 +10,17 @@ const Details = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState('');
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) { setNotFound(true); return; }
     getProductById(id)
       .then((data) => setProduct(data))
       .catch(() => setError('Failed to load product'));
   }, [id]);
 
   if (error) return <p className='p-6 text-remove'>{error}</p>;
+  if (notFound) return <p className='p-6 text-remove'>Product not found.</p>;
   if (!product) return <p className='p-6 text-center'>Loading...</p>;
 
   return (
