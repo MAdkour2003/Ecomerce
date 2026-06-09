@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { addUser } from '../api/usersApi';
-import { login, saveLocalUser } from '../api/authApi';
+import { login, saveLocalUser, isUsernameTaken } from '../api/authApi';
 import { useAuthActions } from '../store/authStore';
 import { cn } from '../utils';
 
@@ -29,13 +29,16 @@ function Signup() {
       return;
     }
 
+    if (isUsernameTaken(username)) {
+      setError('Username already taken');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      saveLocalUser(username, password);
       const newUser = await addUser({
         username,
-        password,
         email: `${username}@example.com`,
         name: { firstname: '', lastname: '' },
         address: {
@@ -47,12 +50,14 @@ function Signup() {
         },
         phone: '',
       });
-      const { token } = await login(username, password);
-      setAuth(token, { id: newUser.id, username, email: `${username}@example.com` });
+      await saveLocalUser(newUser.id, username, `${username}@example.com`, password);
+      const { token, user } = await login(username, password);
+      setAuth(token, user);
       navigate('/', { replace: true });
     } catch (err: unknown) {
       const msg =
-        (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+        (err as { response?: { data?: { message?: string } }; message?: string })
+          ?.response?.data?.message ?? (err as { message?: string })?.message;
       setError(msg || 'Signup failed. Please try again.');
     } finally {
       setLoading(false);
