@@ -29,6 +29,4 @@ export interface CartActions {
 
 export type CartSlice = CartState & CartActions;
 
-// One slice for now; AppStore = CartSlice. Compose more slices here as they
-// arrive (e.g., AppStore = CartSlice & AuthSlice) without touching consumers.
 export type AppStore = CartSlice;

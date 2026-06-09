@@ -15,8 +15,6 @@ export const useCartLineQuantity = (id: number): number =>
   useCartStore((s) => s.items.get(id)?.quantity ?? 0);
 
 export const useCartActions = (): CartActions => {
-  // Actions are stable references on the store, so individual selectors
-  // never re-render. Bundled here so consumers can grab the set in one line.
   const addItem = useCartStore((s) => s.addItem);
   const removeOne = useCartStore((s) => s.removeOne);
   const removeItem = useCartStore((s) => s.removeItem);
