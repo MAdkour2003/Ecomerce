@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { addUser } from '../api/usersApi';
-import { login } from '../api/authApi';
+import { login, saveLocalUser } from '../api/authApi';
 import { useAuthActions } from '../store/authStore';
 import { cn } from '../utils';
 
@@ -32,6 +32,7 @@ function Signup() {
     setLoading(true);
 
     try {
+      saveLocalUser(username, password);
       await addUser({
         username,
         password,
