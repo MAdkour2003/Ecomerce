@@ -26,6 +26,21 @@ export const saveLocalUser = (username: string, password: string): void => {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 };
 
+export const updateLocalUser = (
+  oldUsername: string,
+  newUsername: string,
+  newPassword?: string
+): void => {
+  const users = getLocalUsers();
+  const idx = users.findIndex((u) => u.username === oldUsername);
+  if (idx === -1) return;
+  users[idx] = {
+    username: newUsername,
+    password: newPassword ?? users[idx].password,
+  };
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+};
+
 const makeToken = (username: string): string =>
   btoa(JSON.stringify({ sub: username, iat: Date.now() }));
 

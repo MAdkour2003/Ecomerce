@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Home from './page/Home';
 import Products from './page/Products';
 import Details from './page/Details';
+import Profile from './page/Profile';
 import Login from './page/Login';
 import Signup from './page/Signup';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -23,6 +24,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/products' element={<Products />} />
           <Route path='/detailed/:id' element={<Details />} />
+          <Route path='/profile' element={<Profile />} />
         </Route>
       </Route>
     </Routes>

@@ -16,7 +16,8 @@ function Sidebar({ isOpen }: SidebarProps) {
 
   const navItems: NavItem[] = [
     { path: '/', icon: 'fa-home', label: 'Home' },
-    { path: '/Products', icon: 'fa-th-large', label: 'Product' },
+    { path: '/products', icon: 'fa-th-large', label: 'Products' },
+    { path: '/profile', icon: 'fa-user', label: 'My Profile' },
   ];
 
   return (
@@ -25,15 +26,12 @@ function Sidebar({ isOpen }: SidebarProps) {
         <Link
           key={item.label}
           to={item.path}
-          className={`
-            block
-            p-3.5
-            text-sidescontent
-            no-underline
-            cursor-pointer
-            hover:bg-sideconthov ${location.pathname === item.path ? 'active' : ''}`}
+          className={cn(
+            'block p-3.5 text-sidescontent no-underline cursor-pointer hover:bg-sideconthov',
+            location.pathname === item.path && 'bg-sideconthov'
+          )}
         >
-          <i className={`fas ${item.icon}`}></i>
+          <i className={`fas ${item.icon} mr-2`}></i>
           <span>{item.label}</span>
         </Link>
       ))}
