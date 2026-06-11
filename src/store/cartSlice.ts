@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { AppStore, CartSlice } from './types';
-import { emptyCartState } from './helpers';
+import { emptyCartState, recomputeTotals } from './helpers';
 
 export const createCartSlice: StateCreator<
   AppStore,
@@ -18,11 +18,7 @@ export const createCartSlice: StateCreator<
         ...product,
         quantity: (existing?.quantity ?? 0) + 1,
       });
-      return {
-        items: next,
-        count: state.count + 1,
-        total: state.total + product.price,
-      };
+      return recomputeTotals(next);
     }),
 
   removeOne: (id) =>
@@ -35,11 +31,7 @@ export const createCartSlice: StateCreator<
       } else {
         next.set(id, { ...existing, quantity: existing.quantity - 1 });
       }
-      return {
-        items: next,
-        count: state.count - 1,
-        total: state.total - existing.price,
-      };
+      return recomputeTotals(next);
     }),
 
   removeItem: (id) =>
@@ -48,11 +40,7 @@ export const createCartSlice: StateCreator<
       if (!existing) return state;
       const next = new Map(state.items);
       next.delete(id);
-      return {
-        items: next,
-        count: state.count - existing.quantity,
-        total: state.total - existing.price * existing.quantity,
-      };
+      return recomputeTotals(next);
     }),
 
   clearCart: () => set(() => emptyCartState()),

@@ -1,5 +1,6 @@
 import { createJSONStorage, type PersistOptions } from 'zustand/middleware';
-import type { AppStore, CartLine, CartState } from './types';
+import type { AppStore, CartLine } from './types';
+import { recomputeTotals } from './helpers';
 
 const MAP_MARKER = '__cartMap__';
 
@@ -12,16 +13,6 @@ const isMapMarker = (value: unknown): value is MapMarker =>
   typeof value === 'object' &&
   value !== null &&
   (value as Record<string, unknown>)[MAP_MARKER] === true;
-
-const recomputeTotals = (items: Map<number, CartLine>): CartState => {
-  let count = 0;
-  let total = 0;
-  for (const line of items.values()) {
-    count += line.quantity;
-    total += line.price * line.quantity;
-  }
-  return { items, count, total };
-};
 
 export const cartPersistOptions: PersistOptions<AppStore> = {
   name: 'cart-storage',
