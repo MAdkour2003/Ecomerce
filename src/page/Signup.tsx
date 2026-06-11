@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { addUser } from '../api/usersApi';
-import { login, saveLocalUser, isUsernameTaken } from '../api/authApi';
+import { login, saveLocalUser } from '../api/authApi';
 import { useAuthActions } from '../store/authStore';
 import { cn } from '../utils';
 
@@ -26,11 +26,6 @@ function Signup() {
 
     if (password.length < 8) {
       setError('Password must be at least 8 characters');
-      return;
-    }
-
-    if (isUsernameTaken(username)) {
-      setError('Username already taken');
       return;
     }
 
