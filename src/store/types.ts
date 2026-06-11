@@ -1,3 +1,5 @@
+import type { Product } from '../types';
+
 export interface CartLine {
   id: number;
   title: string;
@@ -20,6 +22,7 @@ export interface CartActions {
   removeOne: (id: number) => void;
   removeItem: (id: number) => void;
   clearCart: () => void;
+  syncRemoteCart: (userId: number, productCatalog: Product[]) => Promise<void>;
 }
 
 export type CartSlice = CartState & CartActions;

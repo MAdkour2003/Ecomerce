@@ -19,7 +19,8 @@ export const useCartActions = (): CartActions => {
   const removeOne = useCartStore((s) => s.removeOne);
   const removeItem = useCartStore((s) => s.removeItem);
   const clearCart = useCartStore((s) => s.clearCart);
-  return { addItem, removeOne, removeItem, clearCart };
+  const syncRemoteCart = useCartStore((s) => s.syncRemoteCart);
+  return { addItem, removeOne, removeItem, clearCart, syncRemoteCart };
 };
 
 export interface UseStoreItemReturn extends CartActions {
