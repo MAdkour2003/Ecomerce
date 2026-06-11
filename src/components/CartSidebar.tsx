@@ -31,10 +31,7 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
             <p className='text-center text-textload py-8'>Your cart is empty</p>
           ) : (
             <div className='space-y-4'>
-              {itemsArr.map(({ quantity: _q, ...product }) => {
-                const { id, image, title, category, price } = product;
-
-                return (
+              {itemsArr.map(({ id, image, title, category, price, quantity: _q }) => (
                   <div
                     key={id}
                     className='flex gap-3 border rounded-lg p-3 hover:shadow-md transition'
@@ -54,11 +51,11 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                       </p>
                       <p className='text-price font-bold mt-1'>${price}</p>
 
-                      <StoreItem product={product} />
+                      <StoreItem product={{ id, title, image, category, price }} />
                     </div>
                   </div>
-                );
-              })}
+                )
+              )}
             </div>
           )}
         </div>
