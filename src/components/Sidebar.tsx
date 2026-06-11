@@ -11,14 +11,14 @@ interface NavItem {
   label: string;
 }
 
+const navItems: NavItem[] = [
+  { path: '/', icon: 'fa-home', label: 'Home' },
+  { path: '/products', icon: 'fa-th-large', label: 'Products' },
+  { path: '/profile', icon: 'fa-user', label: 'My Profile' },
+];
+
 function Sidebar({ isOpen }: SidebarProps) {
   const location = useLocation();
-
-  const navItems: NavItem[] = [
-    { path: '/', icon: 'fa-home', label: 'Home' },
-    { path: '/products', icon: 'fa-th-large', label: 'Products' },
-    { path: '/profile', icon: 'fa-user', label: 'My Profile' },
-  ];
 
   return (
     <aside className={cn('bg-sidebar w-50 h-full px-4', isOpen ? 'block' : 'hidden')}>
