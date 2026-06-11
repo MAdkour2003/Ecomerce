@@ -5,10 +5,5 @@ import { createCartSlice } from './cartSlice';
 import { cartPersistOptions } from './persistConfig';
 
 export const useCartStore = create<AppStore>()(
-  persist(
-    (...a) => ({
-      ...createCartSlice(...a),
-    }),
-    cartPersistOptions
-  )
+  persist(createCartSlice, cartPersistOptions)
 );
