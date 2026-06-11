@@ -47,7 +47,7 @@ export const updateLocalUser = async (
 ): Promise<void> => {
   const users = getLocalUsers();
   const idx = users.findIndex((u) => u.username === oldUsername);
-  if (idx === -1) return;
+  if (idx === -1) throw new Error('User not found');
   const passwordHash = newPassword
     ? await hashPassword(newPassword)
     : users[idx].passwordHash;
