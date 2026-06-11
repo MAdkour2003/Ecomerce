@@ -1,5 +1,3 @@
-import type { Product } from '../types';
-
 export interface CartLine {
   id: number;
   title: string;
@@ -9,10 +7,7 @@ export interface CartLine {
   quantity: number;
 }
 
-export type CartProduct = Pick<
-  Product,
-  'id' | 'title' | 'image' | 'category' | 'price'
->;
+export type CartProduct = Omit<CartLine, 'quantity'>;
 
 export interface CartState {
   items: Map<number, CartLine>;
