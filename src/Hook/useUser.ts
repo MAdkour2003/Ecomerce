@@ -20,11 +20,11 @@ export const useUser = (id: number) => {
 //adduser
 
 export const useAdduser = () => {
-  const querclient = useQueryClient();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: CreateUserPayload) => addUser(data),
     onSuccess: () => {
-      querclient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 };
@@ -32,7 +32,7 @@ export const useAdduser = () => {
 //updateuser
 
 export const useUpdateUser = () => {
-  const queryclinet = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
@@ -43,7 +43,7 @@ export const useUpdateUser = () => {
       data: Partial<CreateUserPayload>;
     }) => updateUser(id, data),
     onSuccess: (_data, variables) => {
-      queryclinet.invalidateQueries({ queryKey: ["users", variables.id] });
+      queryClient.invalidateQueries({ queryKey: ["users", variables.id] });
     },
   });
 };
