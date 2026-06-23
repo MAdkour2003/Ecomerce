@@ -8,9 +8,9 @@ const Details = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { data: product, isLoading, isError, error } = Useproductid(id ?? "");
+  const { data: product, isPending, isError, error } = Useproductid(id ?? "");
 
-  if (isLoading) return <p className="p-6 text-center">Loading.....</p>;
+  if (isPending) return <p className="p-6 text-center">Loading.....</p>;
   if (isError)
     return <p className="p-6 text-remove">{(error as Error).message}</p>;
   if (!product) return <p className="p-6 text-remove">Product not found </p>;
