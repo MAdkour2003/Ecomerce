@@ -1,11 +1,12 @@
-import type { StateCreator } from 'zustand';
-import type { AppStore, CartLine, CartSlice } from './types';
-import { emptyCartState, recomputeTotals, toCartProduct } from './helpers';
-import { getRemoteCart } from '../api/cartApi';
+import type { StateCreator } from "zustand";
+import type { AppStore, CartLine, CartSlice } from "./types";
+import { emptyCartState, recomputeTotals, toCartProduct } from "./helpers";
+
+import type { RemoteCart } from "../api/cartApi";
 
 export const createCartSlice: StateCreator<
   AppStore,
-  [['zustand/persist', unknown]],
+  [["zustand/persist", unknown]],
   [],
   CartSlice
 > = (set) => ({
@@ -46,8 +47,7 @@ export const createCartSlice: StateCreator<
 
   clearCart: () => set(() => emptyCartState()),
 
-  syncRemoteCart: async (userId, productCatalog) => {
-    const carts = await getRemoteCart(userId);
+  syncRemoteCart: (carts: RemoteCart[], productCatalog) => {
     if (!carts.length) return;
 
     const catalog = new Map(productCatalog.map((p) => [p.id, p]));
@@ -56,7 +56,10 @@ export const createCartSlice: StateCreator<
     for (const item of carts[0].products) {
       const product = catalog.get(item.productId);
       if (!product) continue;
-      items.set(product.id, { ...toCartProduct(product), quantity: item.quantity });
+      items.set(product.id, {
+        ...toCartProduct(product),
+        quantity: item.quantity,
+      });
     }
 
     set(recomputeTotals(items));
