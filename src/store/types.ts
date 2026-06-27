@@ -1,4 +1,5 @@
 import type { Product } from '../types';
+import type { RemoteCart } from '../api/cartApi';
 
 export interface CartLine {
   id: number;
@@ -22,7 +23,8 @@ export interface CartActions {
   removeOne: (id: number) => void;
   removeItem: (id: number) => void;
   clearCart: () => void;
-  syncRemoteCart: (userId: number, productCatalog: Product[]) => Promise<void>;
+  // syncRemoteCart: (userId: number, productCatalog: Product[]) => Promise<void>;
+  syncRemoteCart: (carts: RemoteCart[], productCatalog: Product[]) => void;
 }
 
 export type CartSlice = CartState & CartActions;

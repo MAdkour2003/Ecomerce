@@ -1,27 +1,28 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toCartProduct } from "../store";
 import StoreItem from "../components/Storeitem";
-import { getProducts } from "../api/api";
-import type { Product } from "../types";
+import { Useproducts } from "../Hook/UseProduct";
 
 const Products = () => {
-  const [productList, setProductList] = useState<Product[]>([]);
   const [visibleCount, setVisibleCount] = useState(10);
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    getProducts()
-      .then(setProductList)
-      .catch(() => setError("Failed to load data"));
-  }, []);
+  const { data: productList = [], isPending, isError } = Useproducts();
+
+  if (isPending)
+    return <div className="p-6 text-center">Loading products...</div>;
+  if (isError)
+    return (
+      <div className="p-6 text-center text-error font-bold">
+        Failed to load data
+      </div>
+    );
 
   const visibleProducts = productList.slice(0, visibleCount);
 
   return (
     <div className="p-6 text-center">
       <h1 className="text-title font-medium mb-8">React Shop</h1>
-      {error && <p className="text-error font-bold">{error}</p>}
       <div className="flex flex-wrap justify-center gap-5">
         {visibleProducts.map((product) => (
           <div
