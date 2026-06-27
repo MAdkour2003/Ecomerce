@@ -1,6 +1,6 @@
 import { createJSONStorage, type PersistOptions } from 'zustand/middleware';
 import type { AppStore, CartLine } from './types';
-import { withCartTotals } from './helpers';
+import { recomputeTotals } from './helpers';
 
 const MAP_MARKER = '__cartMap__';
 
@@ -35,11 +35,9 @@ export const cartPersistOptions: PersistOptions<AppStore> = {
       return value;
     },
   }),
-  // Belt-and-suspenders: if stored count/total ever drifts from items
-  // (e.g. external tampering with localStorage), recompute on rehydrate.
   onRehydrateStorage: () => (state) => {
     if (state && state.items instanceof Map) {
-      const { count, total } = withCartTotals(state.items);
+      const { count, total } = recomputeTotals(state.items);
       state.count = count;
       state.total = total;
     }

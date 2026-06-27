@@ -9,10 +9,7 @@ export interface CartLine {
   quantity: number;
 }
 
-export type CartProduct = Pick<
-  Product,
-  'id' | 'title' | 'image' | 'category' | 'price'
->;
+export type CartProduct = Omit<CartLine, 'quantity'>;
 
 export interface CartState {
   items: Map<number, CartLine>;
@@ -25,10 +22,9 @@ export interface CartActions {
   removeOne: (id: number) => void;
   removeItem: (id: number) => void;
   clearCart: () => void;
+  syncRemoteCart: (userId: number, productCatalog: Product[]) => Promise<void>;
 }
 
 export type CartSlice = CartState & CartActions;
 
-// One slice for now; AppStore = CartSlice. Compose more slices here as they
-// arrive (e.g., AppStore = CartSlice & AuthSlice) without touching consumers.
 export type AppStore = CartSlice;

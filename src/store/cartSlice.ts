@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { AppStore, CartSlice } from './types';
-import { emptyCartState } from './helpers';
+import type { AppStore, CartLine, CartSlice } from './types';
+import { emptyCartState, recomputeTotals, toCartProduct } from './helpers';
+import { getRemoteCart } from '../api/cartApi';
 
 export const createCartSlice: StateCreator<
   AppStore,
@@ -18,11 +19,7 @@ export const createCartSlice: StateCreator<
         ...product,
         quantity: (existing?.quantity ?? 0) + 1,
       });
-      return {
-        items: next,
-        count: state.count + 1,
-        total: state.total + product.price,
-      };
+      return recomputeTotals(next);
     }),
 
   removeOne: (id) =>
@@ -35,11 +32,7 @@ export const createCartSlice: StateCreator<
       } else {
         next.set(id, { ...existing, quantity: existing.quantity - 1 });
       }
-      return {
-        items: next,
-        count: state.count - 1,
-        total: state.total - existing.price,
-      };
+      return recomputeTotals(next);
     }),
 
   removeItem: (id) =>
@@ -48,12 +41,24 @@ export const createCartSlice: StateCreator<
       if (!existing) return state;
       const next = new Map(state.items);
       next.delete(id);
-      return {
-        items: next,
-        count: state.count - existing.quantity,
-        total: state.total - existing.price * existing.quantity,
-      };
+      return recomputeTotals(next);
     }),
 
   clearCart: () => set(() => emptyCartState()),
+
+  syncRemoteCart: async (userId, productCatalog) => {
+    const carts = await getRemoteCart(userId);
+    if (!carts.length) return;
+
+    const catalog = new Map(productCatalog.map((p) => [p.id, p]));
+    const items = new Map<number, CartLine>();
+
+    for (const item of carts[0].products) {
+      const product = catalog.get(item.productId);
+      if (!product) continue;
+      items.set(product.id, { ...toCartProduct(product), quantity: item.quantity });
+    }
+
+    set(recomputeTotals(items));
+  },
 });

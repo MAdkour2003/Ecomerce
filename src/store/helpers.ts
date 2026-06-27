@@ -7,7 +7,7 @@ export const emptyCartState = (): CartState => ({
   total: 0,
 });
 
-export const withCartTotals = (items: Map<number, CartLine>): CartState => {
+export const recomputeTotals = (items: Map<number, CartLine>): CartState => {
   let count = 0;
   let total = 0;
   for (const line of items.values()) {
