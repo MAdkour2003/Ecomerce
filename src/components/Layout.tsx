@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import { useAuthUser } from '../store/authStore';
-import { useCartActions } from '../store/hooks';
-import { getProducts } from '../api/api';
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import { useAuthUser } from "../store/authStore";
+import { useCartActions } from "../store/hooks";
 
+import { Useproducts } from "../Hook/UseProduct";
+import { useRemoteCart } from "../Hook/useCart";
 function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const user = useAuthUser();
   const { syncRemoteCart } = useCartActions();
+  const { data: catalog } = Useproducts();
+  const { data: remoteCart } = useRemoteCart(user?.id ?? 0);
 
   useEffect(() => {
-    if (!user) return;
-    getProducts()
-      .then((catalog) => syncRemoteCart(user.id, catalog))
-      .catch(() => {});
-  }, [user?.id]);
+    if (!user || !catalog || !remoteCart) return;
+    syncRemoteCart(remoteCart, catalog);
+  }, [user, catalog, remoteCart, syncRemoteCart]);
 
   const toggleSidebar = () => {
     setSidebarOpen((prev) => !prev);
@@ -25,9 +26,9 @@ function Layout() {
   return (
     <>
       <Header toggleSidebar={toggleSidebar} />
-      <main className='flex h-[calc(100vh-60px)] mt-15'>
+      <main className="flex h-[calc(100vh-60px)] mt-15">
         <Sidebar isOpen={sidebarOpen} />
-        <div className='flex-1 overflow-y-auto overflow-x-hidden'>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
           <Outlet />
         </div>
       </main>
