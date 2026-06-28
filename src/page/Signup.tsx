@@ -31,17 +31,11 @@ function Signup() {
 
     signup.mutate(
       {
+        firstName: "",
+        lastName: "",
         username,
         email: `${username}@example.com`,
-        name: { firstname: "", lastname: "" },
-        address: {
-          city: "",
-          street: "",
-          number: 0,
-          zipcode: "",
-          geolocation: { lat: "0", long: "0" },
-        },
-        phone: "",
+        password,
       },
       {
         onSuccess: async (newUser) => {

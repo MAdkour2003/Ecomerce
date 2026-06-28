@@ -1,34 +1,36 @@
 import api from './api';
 
-export interface FakeStoreUser {
+export interface DummyUser {
   id: number;
-  email: string;
+  firstName: string;
+  lastName: string;
   username: string;
-  password?: string;
-  name: { firstname: string; lastname: string };
-  address: {
-    city: string;
-    street: string;
-    number: number;
-    zipcode: string;
-    geolocation: { lat: string; long: string };
-  };
+  email: string;
   phone: string;
+  image: string;
 }
 
-export type CreateUserPayload = Omit<FakeStoreUser, 'id'>;
+export type CreateUserPayload = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  phone?: string;
+  image?: string;
+};
 
-export const addUser = (payload: CreateUserPayload): Promise<FakeStoreUser> =>
-  api.post<FakeStoreUser>('/users', payload).then((r) => r.data);
+export const addUser = (payload: CreateUserPayload): Promise<DummyUser> =>
+  api.post<DummyUser>('/users/add', payload).then((r) => r.data);
 
-export const getUserById = (id: number): Promise<FakeStoreUser> =>
-  api.get<FakeStoreUser>(`/users/${id}`).then((r) => r.data);
+export const getUserById = (id: number): Promise<DummyUser> =>
+  api.get<DummyUser>(`/users/${id}`).then((r) => r.data);
 
 export const updateUser = (
   id: number,
   payload: Partial<CreateUserPayload>
-): Promise<FakeStoreUser> =>
-  api.put<FakeStoreUser>(`/users/${id}`, payload).then((r) => r.data);
+): Promise<DummyUser> =>
+  api.put<DummyUser>(`/users/${id}`, payload).then((r) => r.data);
 
-export const deleteUser = (id: number): Promise<FakeStoreUser> =>
-  api.delete<FakeStoreUser>(`/users/${id}`).then((r) => r.data);
+export const deleteUser = (id: number): Promise<DummyUser> =>
+  api.delete<DummyUser>(`/users/${id}`).then((r) => r.data);
