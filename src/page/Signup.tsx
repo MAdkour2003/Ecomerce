@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { addUser } from '../api/usersApi';
 import { useAdduser } from "../Hook/useUser";
+import type { CreateUserPayload } from "../api/usersApi";
 import { login, saveLocalUser } from "../api/authApi";
 import { useAuthActions } from "../store/authStore";
 import { cn } from "../utils";
@@ -31,12 +32,11 @@ function Signup() {
 
     signup.mutate(
       {
-        firstName: "",
-        lastName: "",
         username,
         email: `${username}@example.com`,
         password,
-      },
+        name: { firstname: username, lastname: "" },
+      } as unknown as CreateUserPayload,
       {
         onSuccess: async (newUser) => {
           await saveLocalUser(
