@@ -4,6 +4,7 @@ import { updateLocalUser } from "../api/authApi";
 import { useAuthActions, useAuthUser, useAuthToken } from "../store/authStore";
 import { cn } from "../utils";
 import { useDeleteUser, useUpdateUser } from "../Hook/useUser";
+import { Button } from "@/components/ui/button";
 
 function Profile() {
   const user = useAuthUser();
@@ -118,7 +119,7 @@ function Profile() {
               Update failed. Please try again.
             </p>
           )}
-          <button
+          <Button
             type="submit"
             disabled={updateUserMutation.isPending}
             className={cn(
@@ -127,7 +128,7 @@ function Profile() {
             )}
           >
             {updateUserMutation.isPending ? "Saving…" : "Save changes"}
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -139,12 +140,12 @@ function Profile() {
           Permanently delete your account. This action cannot be undone.
         </p>
         {!confirmDelete ? (
-          <button
+          <Button
             onClick={() => setConfirmDelete(true)}
             className="px-5 py-2 rounded-lg text-sm font-semibold text-white bg-error hover:opacity-90 transition-colors"
           >
             Delete account
-          </button>
+          </Button>
         ) : (
           <div className="space-y-3">
             <p className="text-sm font-medium text-textbody">
@@ -156,14 +157,14 @@ function Profile() {
               </p>
             )}
             <div className="flex gap-3">
-              <button
+              <Button
                 onClick={handleDelete}
                 disabled={deleteUserMutation.isPending}
                 className="px-5 py-2 rounded-lg text-sm font-semibold text-white bg-error hover:opacity-90 disabled:opacity-50 transition-colors"
               >
                 {deleteUserMutation.isPending ? "Deleting…" : "Yes, delete"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => {
                   setConfirmDelete(false);
                   deleteUserMutation.reset();
@@ -172,7 +173,7 @@ function Profile() {
                 className="px-5 py-2 rounded-lg text-sm font-semibold text-textbody border border-bgcolorWH hover:bg-bgcolorWH transition-colors"
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         )}

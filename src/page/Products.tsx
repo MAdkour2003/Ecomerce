@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toCartProduct } from "../store";
 import StoreItem from "../components/Storeitem";
 import { Useproducts } from "../Hook/UseProduct";
+import { Button } from "@/components/ui/button";
 
 const Products = () => {
   const [visibleCount, setVisibleCount] = useState(10);
@@ -52,12 +53,12 @@ const Products = () => {
         ))}
       </div>
       {visibleCount < productList.length && (
-        <button
+        <Button
           onClick={() => setVisibleCount((prev) => prev + 10)}
           className="text-text1 mt-4 p-2 border-none bg-showmore hover:bg-showmorehover rounded-full text-center w-1/2"
         >
           show more
-        </button>
+        </Button>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import StoreItem from "../components/Storeitem";
 import { toCartProduct } from "../store";
 
 import { Useproductid } from "../Hook/UseProduct";
+import { Button } from "@/components/ui/button";
 
 const Details = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,12 +18,12 @@ const Details = () => {
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
-      <button
+      <Button
         onClick={() => navigate("/products")}
         className="text-4xl font-bold text-sidebar"
       >
         ~ Back to Home
-      </button>
+      </Button>
       <img
         src={product.image}
         alt={product.title}

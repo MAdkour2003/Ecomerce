@@ -1,4 +1,5 @@
 import { useStoreItem, type CartProduct } from "../store";
+import { Button } from "./ui/button";
 
 interface StoreItemProps {
   product: CartProduct;
@@ -11,37 +12,39 @@ export default function StoreItem({ product }: StoreItemProps) {
 
   if (quantity === 0) {
     return (
-      <button
+      <Button
         onClick={() => addItem(product)}
         className="bg-addcart text-text1 px-4 py-1 rounded-full text-sm hover:bg-addcarthover transition"
       >
         + Add to Cart
-      </button>
+      </Button>
     );
   }
 
   return (
     <div className="flex flex-col items-center mt-2 mb-2">
       <div className="flex items-center justify-center gap-2">
-        <button
+        <Button
+          variant={"outline"}
           onClick={() => removeOne(product.id)}
           className="w-8 h-8 rounded-full bg-incDecbg hover:bg-incDechover font-bold text-sm"
         >
           -
-        </button>
+        </Button>
         <span className="font-bold text-base text-black">{quantity}</span>
-        <button
+        <Button
           onClick={() => addItem(product)}
           className="w-8 h-8 rounded-full bg-incDecbg hover:bg-incDechover font-bold text-sm"
         >
           +
-        </button>
-        <button
+        </Button>
+        <Button
+          variant={"ghost"}
           onClick={() => removeItem(product.id)}
           className="text-remove text-xs ml-1 hover:underline"
         >
           Remove
-        </button>
+        </Button>
       </div>
       <div className="bg-categorycart/10 px-4 py-1.5 rounded-full border border-categorycart/20 mt-1">
         <p className="font-bold text-price text-base">

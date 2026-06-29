@@ -4,6 +4,8 @@ import { login } from "../api/authApi";
 import { useAuthActions } from "../store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { cn } from "../utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 function Login() {
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ function Login() {
             <label className="text-sm font-medium text-textbody">
               Username
             </label>
-            <input
+            <Input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -65,7 +67,7 @@ function Login() {
             <label className="text-sm font-medium text-textbody">
               Password
             </label>
-            <input
+            <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -80,7 +82,7 @@ function Login() {
 
           {errorMessage && <p className="text-error text-sm">{errorMessage}</p>}
 
-          <button
+          <Button
             type="submit"
             disabled={loginMutation.isPending}
             className={cn(
@@ -89,7 +91,7 @@ function Login() {
             )}
           >
             {loginMutation.isPending ? "Signing in…" : "Sign in"}
-          </button>
+          </Button>
 
           <p className="text-center text-sm text-textload">
             Don&apos;t have an account?{" "}

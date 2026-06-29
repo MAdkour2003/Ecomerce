@@ -2,10 +2,11 @@ import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { addUser } from '../api/usersApi';
 import { useAdduser } from "../Hook/useUser";
-import type { CreateUserPayload } from "../api/usersApi";
 import { login, saveLocalUser } from "../api/authApi";
 import { useAuthActions } from "../store/authStore";
 import { cn } from "../utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 function Signup() {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ function Signup() {
             <label className="text-sm font-medium text-textbody">
               Username
             </label>
-            <input
+            <Input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -86,7 +87,7 @@ function Signup() {
             <label className="text-sm font-medium text-textbody">
               Password
             </label>
-            <input
+            <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -103,7 +104,7 @@ function Signup() {
             <label className="text-sm font-medium text-textbody">
               Confirm password
             </label>
-            <input
+            <Input
               type="password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
@@ -126,7 +127,7 @@ function Signup() {
             </p>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={signup.isPending}
             className={cn(
@@ -135,7 +136,7 @@ function Signup() {
             )}
           >
             {signup.isPending ? "Creating account…" : "Create account"}
-          </button>
+          </Button>
 
           <p className="text-center text-sm text-textload">
             Already have an account?{" "}
