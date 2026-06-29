@@ -36,7 +36,7 @@ function Signup() {
         email: `${username}@example.com`,
         password,
         name: { firstname: username, lastname: "" },
-      } as unknown as CreateUserPayload,
+      },
       {
         onSuccess: async (newUser) => {
           await saveLocalUser(
